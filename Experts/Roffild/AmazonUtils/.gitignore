@@ -9,3 +9,5 @@ out/
 *.class
 *.iml
 *.log
+
+aws_spotprices.csv

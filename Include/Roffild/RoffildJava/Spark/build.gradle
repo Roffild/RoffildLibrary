@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':RoffildLibrary')
+    compile group: 'org.apache.spark', name: 'spark-mllib_2.11', version: '2.3.0'
+}

@@ -1,0 +1,3 @@
+rootProject.name = 'AmazonUtils'
+
+includeBuild('../../../Include/Roffild/RoffildJava')

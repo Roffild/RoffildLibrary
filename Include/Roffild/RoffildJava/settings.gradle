@@ -1,0 +1,5 @@
+rootProject.name = 'RoffildJava'
+
+include 'RoffildLibrary'
+include 'Spark'
+include 'AmazonUtils'

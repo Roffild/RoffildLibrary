@@ -1,0 +1,67 @@
+	vCPU	ECU	Memory (GiB)	Instance Storage (GB)	Linux/UNIX Usage
+General Purpose - Current Generation
+t2.nano	1	Variable	0.5	EBS Only	$0.0058 per Hour
+t2.micro	1	Variable	1	EBS Only	$0.0116 per Hour
+t2.small	1	Variable	2	EBS Only	$0.023 per Hour
+t2.medium	2	Variable	4	EBS Only	$0.0464 per Hour
+t2.large	2	Variable	8	EBS Only	$0.0928 per Hour
+t2.xlarge	4	Variable	16	EBS Only	$0.1856 per Hour
+t2.2xlarge	8	Variable	32	EBS Only	$0.3712 per Hour
+m5.large	2	10	8	EBS Only	$0.096 per Hour
+m5.xlarge	4	15	16	EBS Only	$0.192 per Hour
+m5.2xlarge	8	31	32	EBS Only	$0.384 per Hour
+m5.4xlarge	16	61	64	EBS Only	$0.768 per Hour
+m5.12xlarge	48	173	192	EBS Only	$2.304 per Hour
+m5.24xlarge	96	345	384	EBS Only	$4.608 per Hour
+m4.large	2	6.5	8	EBS Only	$0.1 per Hour
+m4.xlarge	4	13	16	EBS Only	$0.2 per Hour
+m4.2xlarge	8	26	32	EBS Only	$0.4 per Hour
+m4.4xlarge	16	53.5	64	EBS Only	$0.8 per Hour
+m4.10xlarge	40	124.5	160	EBS Only	$2 per Hour
+m4.16xlarge	64	188	256	EBS Only	$3.2 per Hour
+Compute Optimized - Current Generation
+c5.large	2	8	4	EBS Only	$0.085 per Hour
+c5.xlarge	4	16	8	EBS Only	$0.17 per Hour
+c5.2xlarge	8	31	16	EBS Only	$0.34 per Hour
+c5.4xlarge	16	62	32	EBS Only	$0.68 per Hour
+c5.9xlarge	36	139	72	EBS Only	$1.53 per Hour
+c5.18xlarge	72	278	144	EBS Only	$3.06 per Hour
+c4.large	2	8	3.75	EBS Only	$0.1 per Hour
+c4.xlarge	4	16	7.5	EBS Only	$0.199 per Hour
+c4.2xlarge	8	31	15	EBS Only	$0.398 per Hour
+c4.4xlarge	16	62	30	EBS Only	$0.796 per Hour
+c4.8xlarge	36	132	60	EBS Only	$1.591 per Hour
+GPU Instances - Current Generation
+p2.xlarge	4	12	61	EBS Only	$0.9 per Hour
+p2.8xlarge	32	94	488	EBS Only	$7.2 per Hour
+p2.16xlarge	64	188	732	EBS Only	$14.4 per Hour
+p3.2xlarge	8	23.5	61	EBS Only	$3.06 per Hour
+p3.8xlarge	32	94	244	EBS Only	$12.24 per Hour
+p3.16xlarge	64	188	488	EBS Only	$24.48 per Hour
+g3.4xlarge	16	47	122	EBS Only	$1.14 per Hour
+g3.8xlarge	32	94	244	EBS Only	$2.28 per Hour
+g3.16xlarge	64	188	488	EBS Only	$4.56 per Hour
+Memory Optimized - Current Generation
+x1.16xlarge	64	174.5	976	1 x 1920 SSD	$6.669 per Hour
+x1.32xlarge	128	349	1952	2 x 1920 SSD	$13.338 per Hour
+r4.large	2	7	15.25	EBS Only	$0.133 per Hour
+r4.xlarge	4	13.5	30.5	EBS Only	$0.266 per Hour
+r4.2xlarge	8	27	61	EBS Only	$0.532 per Hour
+r4.4xlarge	16	53	122	EBS Only	$1.064 per Hour
+r4.8xlarge	32	99	244	EBS Only	$2.128 per Hour
+r4.16xlarge	64	195	488	EBS Only	$4.256 per Hour
+Storage Optimized - Current Generation
+i3.large	2	7	15.25	1 x 475 NVMe SSD	$0.156 per Hour
+i3.xlarge	4	13	30.5	1 x 950 NVMe SSD	$0.312 per Hour
+i3.2xlarge	8	27	61	1 x 1900 NVMe SSD	$0.624 per Hour
+i3.4xlarge	16	53	122	2 x 1900 NVMe SSD	$1.248 per Hour
+i3.8xlarge	32	99	244	4 x 1900 NVMe SSD	$2.496 per Hour
+i3.16xlarge	64	200	488	8 x 1900 NVMe SSD	$4.992 per Hour
+h1.2xlarge	8	26	32	1 x 2000 HDD	$0.55 per Hour
+h1.4xlarge	16	53.5	64	2 x 2000 HDD	$1.1 per Hour
+h1.8xlarge	32	99	128	4 x 2000 HDD	$2.2 per Hour
+h1.16xlarge	64	188	256	8 x 2000 HDD	$4.4 per Hour
+d2.xlarge	4	14	30.5	3 x 2000 HDD	$0.69 per Hour
+d2.2xlarge	8	28	61	6 x 2000 HDD	$1.38 per Hour
+d2.4xlarge	16	56	122	12 x 2000 HDD	$2.76 per Hour
+d2.8xlarge	36	116	244	24 x 2000 HDD	$5.52 per Hour
