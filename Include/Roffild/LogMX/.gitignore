@@ -1,0 +1,8 @@
+﻿# gitignore
+build/
+.gradle/
+gradle/
+gradlew*
+.idea/
+*.class
+*.iml
