@@ -1,0 +1,11 @@
+﻿# gitignore
+amazon.config
+build/
+.gradle/
+gradle/
+gradlew*
+.idea/
+out/
+*.class
+*.iml
+*.log

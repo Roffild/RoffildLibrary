@@ -30,6 +30,7 @@
   * [ToIndicator.mq5](Indicators/Roffild/ToIndicator.mq5)
   * [ToIndicator_window.mq5](Indicators/Roffild/ToIndicator_window.mq5)
 * Scripts/Roffild/
+  * [MLPDataFileSparkTest](Scripts/Roffild/MLPDataFileSparkTest) - пример проекта для Spark и тест MLPDataFile
   * [UnitTests](Scripts/Roffild/UnitTests)
 
 ## Установка
