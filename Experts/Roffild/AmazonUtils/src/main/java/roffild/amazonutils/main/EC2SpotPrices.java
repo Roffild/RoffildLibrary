@@ -22,11 +22,14 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
+import static roffild.amazonutils.EC2.getSpotPrices;
 import static roffild.amazonutils.EC2.getSpotPricesMinimal;
 
 public class EC2SpotPrices
@@ -41,11 +44,19 @@ public class EC2SpotPrices
          }
       } catch (IOException e) {
       }
+      System.out.println("All SpotPrices...");
+      save(Paths.get("aws_spotprices_all.csv"), getSpotPrices(Regions.values()));
+      System.out.println("Minimal SpotPrices...");
+      save(Paths.get("aws_spotprices_minimal.csv"), getSpotPricesMinimal(Regions.values()));
+   }
+
+   public static void save(Path path, List<EC2InstanceTypes> ec2InstanceTypes)
+   {
       LinkedList<String[]> data = new LinkedList<>();
       data.add(new String[]{
               "Type", "CPU", "ECU", "Memory", "Storage", "StorageGB", "Zone", "SpotPrice", "Product", "Time"
       });
-      for (EC2InstanceTypes instanceTypes : getSpotPricesMinimal(Regions.values())) {
+      for (EC2InstanceTypes instanceTypes : ec2InstanceTypes) {
          data.add(new String[]{
                  instanceTypes.type,
                  String.valueOf(instanceTypes.cpu),
@@ -59,7 +70,8 @@ public class EC2SpotPrices
                  String.valueOf(instanceTypes.timestemp)
          });
       }
-      try (BufferedWriter csv = Files.newBufferedWriter(Paths.get("aws_spotprices.csv"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+      try (BufferedWriter csv = Files.newBufferedWriter(path,
+              StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
          String dil = ";";
          for (String[] line : data) {
             csv.write(line[0]);

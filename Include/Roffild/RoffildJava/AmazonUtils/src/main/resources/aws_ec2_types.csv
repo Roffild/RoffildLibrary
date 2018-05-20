@@ -19,6 +19,17 @@ m4.2xlarge	8	26	32	EBS Only	$0.4 per Hour
 m4.4xlarge	16	53.5	64	EBS Only	$0.8 per Hour
 m4.10xlarge	40	124.5	160	EBS Only	$2 per Hour
 m4.16xlarge	64	188	256	EBS Only	$3.2 per Hour
+m3.medium	1	3.75	1 x 4 SSD	$0.0077
+m3.large	2	7.5	1 x 32 SSD	$0.0274
+m3.xlarge	4	15	2 x 40 SSD	$0.0548
+m3.2xlarge	8	30	2 x 80 SSD	$0.1128
+
+General Purpose - Previous Generation
+m1.small	$0.047 per Hour	$0.011 per Hour
+m1.medium	$0.095 per Hour	$0.022 per Hour
+m1.large	$0.190 per Hour	$0.044 per Hour
+m1.xlarge	$0.379 per Hour	$0.088 per Hour
+
 Compute Optimized - Current Generation
 c5.large	2	8	4	EBS Only	$0.085 per Hour
 c5.xlarge	4	16	8	EBS Only	$0.17 per Hour
@@ -26,11 +37,32 @@ c5.2xlarge	8	31	16	EBS Only	$0.34 per Hour
 c5.4xlarge	16	62	32	EBS Only	$0.68 per Hour
 c5.9xlarge	36	139	72	EBS Only	$1.53 per Hour
 c5.18xlarge	72	278	144	EBS Only	$3.06 per Hour
+c5d.large	2	8	4	1 x 50 HDD	$0.096 per Hour
+c5d.xlarge	4	16	8	1 x 100 HDD	$0.192 per Hour
+c5d.2xlarge	8	31	16	1 x 200 HDD	$0.384 per Hour
+c5d.4xlarge	16	62	32	1 x 400 HDD	$0.768 per Hour
+c5d.9xlarge	36	139	72	1 x 900 HDD	$1.728 per Hour
+c5d.18xlarge	72	278	144	1 x 1800 HDD	$3.456 per Hour
 c4.large	2	8	3.75	EBS Only	$0.1 per Hour
 c4.xlarge	4	16	7.5	EBS Only	$0.199 per Hour
 c4.2xlarge	8	31	15	EBS Only	$0.398 per Hour
 c4.4xlarge	16	62	30	EBS Only	$0.796 per Hour
 c4.8xlarge	36	132	60	EBS Only	$1.591 per Hour
+c3.xlarge	4	0	7.5	1 x 80 SSD	$0.4367
+c3.2xlarge	8	0	15	1 x 160 SSD	$0.4367
+c3.4xlarge	16	0	30	1 x 320 SSD	$0.4367
+c3.8xlarge	32	0	60	2 x 320 SSD	$0.4367
+c3.16xlarge	64	0	120	4 x 320 SSD	$0.4367
+
+Compute Optimized - Previous Generation
+c1.medium	$0.130 per Hour	$0.030 per Hour
+c1.xlarge	$0.520 per Hour	$0.120 per Hour
+
+cc2.2xlarge	8	0	15.5	1 x 840 HDD	$0.285
+cc2.4xlarge	16	0	30.5	2 x 840 HDD	$0.285
+cc2.8xlarge	32	0	60.5	4 x 840 HDD	$0.285
+cc2.16xlarge	64	0	121	8 x 840 HDD	$0.285
+
 GPU Instances - Current Generation
 p2.xlarge	4	12	61	EBS Only	$0.9 per Hour
 p2.8xlarge	32	94	488	EBS Only	$7.2 per Hour
@@ -41,15 +73,46 @@ p3.16xlarge	64	188	488	EBS Only	$24.48 per Hour
 g3.4xlarge	16	47	122	EBS Only	$1.14 per Hour
 g3.8xlarge	32	94	244	EBS Only	$2.28 per Hour
 g3.16xlarge	64	188	488	EBS Only	$4.56 per Hour
+g2.xlarge	4	0	7.5	1 x 30 SSD	$0.78
+g2.2xlarge	8	0	15	1 x 60 SSD	$0.78
+g2.4xlarge	16	0	30	1 x 120 SSD	$0.78
+g2.8xlarge	32	0	60	2 x 120 SSD	$0.78
+g2.16xlarge	64	0	120	4 x 120 SSD	$0.78
+
+cg1.4xlarge	$2.100 per Hour	$0.270 per Hour
+
+FPGA Instances - Current Generation
+f1.2xlarge	8	26	122	1 x 470 NVMe SSD	$1.65 per Hour
+f1.16xlarge	64	188	976	4 x 940 NVMe SSD	$13.2 per Hour
 Memory Optimized - Current Generation
 x1.16xlarge	64	174.5	976	1 x 1920 SSD	$6.669 per Hour
 x1.32xlarge	128	349	1952	2 x 1920 SSD	$13.338 per Hour
+x1e.xlarge	4	12	122	1 x 120 SSD	$0.834 per Hour
+x1e.2xlarge	8	23	244	1 x 240 SSD	$1.668 per Hour
+x1e.4xlarge	16	47	488	1 x 480 SSD	$3.336 per Hour
+x1e.8xlarge	32	91	976	1 x 960 SSD	$6.672 per Hour
+x1e.16xlarge	64	179	1952	1 x 1920 SSD	$13.344 per Hour
+x1e.32xlarge	128	340	3904	2 x 1920 SSD	$26.688 per Hour
 r4.large	2	7	15.25	EBS Only	$0.133 per Hour
 r4.xlarge	4	13.5	30.5	EBS Only	$0.266 per Hour
 r4.2xlarge	8	27	61	EBS Only	$0.532 per Hour
 r4.4xlarge	16	53	122	EBS Only	$1.064 per Hour
 r4.8xlarge	32	99	244	EBS Only	$2.128 per Hour
 r4.16xlarge	64	195	488	EBS Only	$4.256 per Hour
+r3.large	2	0	15.25	1 x 40 SSD	$0.5956
+r3.xlarge	4	0	30.5	1 x 80 SSD	$0.5956
+r3.2xlarge	8	0	61	1 x 160 SSD	$0.5956
+r3.4xlarge	16	0	122	1 x 320 SSD	$0.5956
+r3.8xlarge	32	0	244	2 x 320 SSD	$0.5956
+r3.16xlarge	64	0	488	4 x 320 SSD	$0.5956
+
+Memory Optimized - Previous Generation
+m2.xlarge	$0.245 per Hour	$0.062 per Hour
+m2.2xlarge	$0.490 per Hour	$0.123 per Hour
+m2.4xlarge	$0.980 per Hour	$0.246 per Hour
+
+cr1.8xlarge	32	0	244	2 x 120 SSD	$0.3854
+
 Storage Optimized - Current Generation
 i3.large	2	7	15.25	1 x 475 NVMe SSD	$0.156 per Hour
 i3.xlarge	4	13	30.5	1 x 950 NVMe SSD	$0.312 per Hour
@@ -57,11 +120,21 @@ i3.2xlarge	8	27	61	1 x 1900 NVMe SSD	$0.624 per Hour
 i3.4xlarge	16	53	122	2 x 1900 NVMe SSD	$1.248 per Hour
 i3.8xlarge	32	99	244	4 x 1900 NVMe SSD	$2.496 per Hour
 i3.16xlarge	64	200	488	8 x 1900 NVMe SSD	$4.992 per Hour
-h1.2xlarge	8	26	32	1 x 2000 HDD	$0.55 per Hour
-h1.4xlarge	16	53.5	64	2 x 2000 HDD	$1.1 per Hour
-h1.8xlarge	32	99	128	4 x 2000 HDD	$2.2 per Hour
-h1.16xlarge	64	188	256	8 x 2000 HDD	$4.4 per Hour
+i3.metal	72	208	512	8 x 1900 NVMe SSD	$4.992 per Hour
+i2.large	2	0	15.25	1 x 400 SSD	$2.046
+i2.xlarge	4	0	30.5	1 x 800 SSD	$2.046
+i2.2xlarge	8	0	61	2 x 800 SSD	$2.046
+i2.4xlarge	16	0	122	4 x 800 SSD	$2.046
+i2.8xlarge	32	0	244	8 x 800 SSD	$2.046
+i2.16xlarge	64	0	488	16 x 800 SSD	$2.046
+h1.2xlarge	8	26	32	1 x 2000 HDD	$0.468 per Hour
+h1.4xlarge	16	53.5	64	2 x 2000 HDD	$0.936 per Hour
+h1.8xlarge	32	99	128	4 x 2000 HDD	$1.872 per Hour
+h1.16xlarge	64	188	256	8 x 2000 HDD	$3.744 per Hour
 d2.xlarge	4	14	30.5	3 x 2000 HDD	$0.69 per Hour
 d2.2xlarge	8	28	61	6 x 2000 HDD	$1.38 per Hour
 d2.4xlarge	16	56	122	12 x 2000 HDD	$2.76 per Hour
 d2.8xlarge	36	116	244	24 x 2000 HDD	$5.52 per Hour
+
+Storage Optimized - Previous Generation
+hs1.8xlarge

@@ -10,4 +10,4 @@ out/
 *.iml
 *.log
 
-aws_spotprices.csv
+aws_spotprices*.csv
