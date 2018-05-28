@@ -57,6 +57,7 @@ public:
    string id;
    bool window;
    int handleFile, handleIndicator;
+
    CToIndicator() : handleFile(INVALID_HANDLE), handleIndicator(INVALID_HANDLE)
    {}
 
@@ -68,8 +69,8 @@ public:
    int init(const string _id, const bool _window = false, const bool ignore_visual = false)
    {
       id = _id;
-      if (ignore_visual || MQLInfoInteger(MQL_VISUAL_MODE)) {
-         handleFile = FileOpen(id, FILE_BIN|FILE_WRITE|FILE_SHARE_READ|FILE_SHARE_WRITE |FILE_COMMON);
+      if (MQLInfoInteger(MQL_TESTER) == 0 || (ignore_visual || MQLInfoInteger(MQL_VISUAL_MODE))) {
+         handleFile = FileOpen("ToIndicator/" + id, FILE_BIN|FILE_WRITE|FILE_SHARE_READ|FILE_SHARE_WRITE);
          window = _window;
          return handleFile;
       }

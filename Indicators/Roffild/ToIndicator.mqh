@@ -202,8 +202,8 @@ int OnCalculate(const int rates_total,
                 const int& spread[])
 {
    if (hfile == INVALID_HANDLE) {
-      hfile = FileOpen(FilePath, FILE_BIN|FILE_READ|FILE_SHARE_READ|FILE_SHARE_WRITE |FILE_COMMON);
-      htell = FileOpen(FilePath, FILE_BIN|FILE_READ|FILE_SHARE_READ|FILE_SHARE_WRITE |FILE_COMMON);
+      hfile = FileOpen("ToIndicator/" + FilePath, FILE_BIN|FILE_READ|FILE_SHARE_READ|FILE_SHARE_WRITE);
+      htell = FileOpen("ToIndicator/" + FilePath, FILE_BIN|FILE_READ|FILE_SHARE_READ|FILE_SHARE_WRITE);
    }
    if (FileReadInteger(htell) == 0) {
       return rates_total;
@@ -233,7 +233,7 @@ int OnCalculate(const int rates_total,
                for (int x = 0; x < index; x++) {
                   count += plots[x].getBuffersCount();
                }
-               const ENUM_DRAW_TYPE draw_type = ENUM_DRAW_TYPE(param.property);
+               const ENUM_DRAW_TYPE draw_type = (ENUM_DRAW_TYPE)(param.property);
                switch (draw_type) {
                   case DRAW_NONE: plots[index] = new CToIndicator_Buffers_1(); break;
                   case DRAW_LINE: plots[index] = new CToIndicator_Buffers_1(); break;
@@ -263,43 +263,43 @@ int OnCalculate(const int rates_total,
                      plots[index] = new CToIndicator_Color<CToIndicator_Buffers_4>(); break;
                   default: Print(EnumToString(draw_type), " is not support"); break;
                }
-               plots[index].setBuffers(draw_type, ushort(index), count,
+               plots[index].setBuffers(draw_type, (ushort)(index), count,
                   ShortArrayToString(param.text), param.double_value);
                setbuffer = true;
             } else if (type == TOINDICATOR_PLOT_INTEGER_MOD) {
-               PlotIndexSetInteger(param.index, ENUM_PLOT_PROPERTY_INTEGER(param.property),
+               PlotIndexSetInteger(param.index, (ENUM_PLOT_PROPERTY_INTEGER)(param.property),
                   param.modifier, param.int_value);
             } else if (type == TOINDICATOR_PLOT_INTEGER) {
-               PlotIndexSetInteger(param.index, ENUM_PLOT_PROPERTY_INTEGER(param.property),
+               PlotIndexSetInteger(param.index, (ENUM_PLOT_PROPERTY_INTEGER)(param.property),
                   param.int_value);
             } else if (type == TOINDICATOR_PLOT_DOUBLE) {
-               PlotIndexSetDouble(param.index, ENUM_PLOT_PROPERTY_DOUBLE(param.property),
+               PlotIndexSetDouble(param.index, (ENUM_PLOT_PROPERTY_DOUBLE)(param.property),
                   param.double_value);
             } else if (type == TOINDICATOR_PLOT_STRING) {
-               PlotIndexSetString(param.index, ENUM_PLOT_PROPERTY_STRING(param.property),
+               PlotIndexSetString(param.index, (ENUM_PLOT_PROPERTY_STRING)(param.property),
                   ShortArrayToString(param.text));
             } else if (type == TOINDICATOR_INDIC_INTEGER_MOD) {
-               IndicatorSetInteger(ENUM_CUSTOMIND_PROPERTY_INTEGER(param.property),
+               IndicatorSetInteger((ENUM_CUSTOMIND_PROPERTY_INTEGER)(param.property),
                   param.modifier, param.int_value);
             } else if (type == TOINDICATOR_INDIC_INTEGER) {
-               IndicatorSetInteger(ENUM_CUSTOMIND_PROPERTY_INTEGER(param.property),
+               IndicatorSetInteger((ENUM_CUSTOMIND_PROPERTY_INTEGER)(param.property),
                   param.int_value);
             } else if (type == TOINDICATOR_INDIC_DOUBLE_MOD) {
-               IndicatorSetDouble(ENUM_CUSTOMIND_PROPERTY_DOUBLE(param.property),
+               IndicatorSetDouble((ENUM_CUSTOMIND_PROPERTY_DOUBLE)(param.property),
                   param.modifier, param.double_value);
             } else if (type == TOINDICATOR_INDIC_DOUBLE) {
-               IndicatorSetDouble(ENUM_CUSTOMIND_PROPERTY_DOUBLE(param.property),
+               IndicatorSetDouble((ENUM_CUSTOMIND_PROPERTY_DOUBLE)(param.property),
                   param.double_value);
             } else if (type == TOINDICATOR_INDIC_STRING_MOD) {
-               IndicatorSetString(ENUM_CUSTOMIND_PROPERTY_STRING(param.property),
+               IndicatorSetString((ENUM_CUSTOMIND_PROPERTY_STRING)(param.property),
                   param.modifier, ShortArrayToString(param.text));
             } else if (type == TOINDICATOR_INDIC_STRING) {
-               IndicatorSetString(ENUM_CUSTOMIND_PROPERTY_STRING(param.property),
+               IndicatorSetString((ENUM_CUSTOMIND_PROPERTY_STRING)(param.property),
                   ShortArrayToString(param.text));
             }
             const int error = GetLastError();
             if (error != 0) {
-               Print("ToIndicator ERROR = ", error, " in ", EnumToString(ENUM_TOINDICATOR(type)));
+               Print("ToIndicator ERROR = ", error, " in ", EnumToString((ENUM_TOINDICATOR)(type)));
             }
             continue;
          }

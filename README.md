@@ -4,6 +4,8 @@
   * [AmazonUtils](Experts/Roffild/AmazonUtils) - can be used as an example of developing a project in Java
   * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5)
   * [Alglib_RandomForest.mq5](Experts/Roffild/Alglib_RandomForest.mq5)
+  * [Examples/](Experts/Roffild/Examples/)
+    * [ToIndicator_Example.mq5](Experts/Roffild/Examples/ToIndicator_Example.mq5)
 * Include/Roffild/
   * [MLPDataFile.mqh](Include/Roffild/MLPDataFile.mqh) - data format for Alglib_MultilayerPerceptron and Alglib_RandomForest
   * [ArrayList_macros.mqh](Include/Roffild/ArrayList_macros.mqh) - this variant is still used because of poor template support by the code editor
