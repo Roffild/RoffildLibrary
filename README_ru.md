@@ -13,16 +13,17 @@ MetaEditor может сохранять код в UTF-16, но кодировк
 * эксперименты с AlgLib в машинном обучении;
 * использование Apache Spark с Amazon Web Services (EC2 и EMR), когда возможностей AlgLib перестало хватать.
 
-## Документация
-[MQL5](https://roffild.com/mql5/)
+### Документация
+[MQL5](https://roffild.com/mql5/)<br/>
 [Java](https://roffild.com/java/)
 
-## Ссылки
-[Roffild.com](https://roffild.com/)
-[Github](https://github.com/Roffild/RoffildLibrary)
-[MQL5.com: topic for discussion in English](https://www.mql5.com/en/forum/247134)
+### Ссылки
+[Roffild.com](https://roffild.com/)<br/>
+[Github](https://github.com/Roffild/RoffildLibrary)<br/>
+[MQL5.com: topic for discussion in English](https://www.mql5.com/en/forum/247134)<br/>
 [MQL5.com: тема для обсуждения на Русском](https://www.mql5.com/ru/forum/245373)
 
+-----------------
 * [Experts/Roffild/](Experts/Roffild/)
   * [AmazonUtils](Experts/Roffild/AmazonUtils) - Можно использовать как пример разработки проекта на Java.
   * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5)

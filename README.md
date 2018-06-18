@@ -22,16 +22,17 @@ This library can be divided into interests:
 * experiments with AlgLib in machine learning;
 * using Apache Spark with Amazon Web Services (EC2 and EMR), when the capabilities of AlgLib ceased to be enough.
 
-## Documentation
-[MQL5](https://roffild.com/mql5/)
+### Documentation
+[MQL5](https://roffild.com/mql5/)<br/>
 [Java](https://roffild.com/java/)
 
-## Links
-[Roffild.com](https://roffild.com/)
-[Github](https://github.com/Roffild/RoffildLibrary)
-[MQL5.com: topic for discussion in English](https://www.mql5.com/en/forum/247134)
+### Links
+[Roffild.com](https://roffild.com/)<br/>
+[Github](https://github.com/Roffild/RoffildLibrary)<br/>
+[MQL5.com: topic for discussion in English](https://www.mql5.com/en/forum/247134)<br/>
 [MQL5.com: тема для обсуждения на Русском](https://www.mql5.com/ru/forum/245373)
 
+-----------------
 * [Experts/Roffild/](Experts/Roffild/)
   * [AmazonUtils](Experts/Roffild/AmazonUtils) - Can be used as an example of developing a project in Java.
   * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5)
