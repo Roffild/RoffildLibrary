@@ -14,20 +14,39 @@
 * https://github.com/Roffild/RoffildLibrary
 */
 
+/**
+ * A base class for generating data as an array.
+ */
 class CSqlObject
 {
 public:
+   /**
+    * Create a table.
+    * @param[out] types [x][0] = name, [x][1] = type
+    * @param[out] primaryKeys https://en.wikipedia.org/wiki/Primary_key
+    * @return True if the data is formed, and otherwise False.
+    */
    virtual bool toSqlTable(string &types[][2], string &primaryKeys[])
    {
       return false;
    }
 
+   /**
+    * Forming data for writing to a table.
+    * @param[out] list [x][0] = name, [x][1] = data
+    * @return True if the data is formed, and otherwise False.
+    */
    virtual bool toSqlRecord(string &list[][2])
    {
       return false;
    }
 };
 
+/**
+ * This class stores the result of the class inherited from CSqlObject into the array.
+ * Since the formation of data is done using functions,
+ * the moment of data formation can be much later than expected.
+ */
 class CSqlObjectSnapShot : CSqlObject
 {
 protected:
@@ -61,6 +80,9 @@ public:
    }
 };
 
+/**
+ * Write data to a file format MySQL.
+ */
 class CSqlFile
 {
 protected:

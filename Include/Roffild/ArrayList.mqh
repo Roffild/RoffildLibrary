@@ -14,6 +14,7 @@
 * https://github.com/Roffild/RoffildLibrary
 */
 
+/// ArrayList from Java.
 template<typename Type>
 class CArrayList
 {
@@ -98,6 +99,7 @@ public:
    {
       return addAll(ArraySize(elements), list);
    }
+   /// Appends all of the elements in the specified collection to the end of this list.
    bool addAll(const CArrayList<Type> &list)
    {
       return addAll(ArraySize(elements), list.elements);
@@ -123,6 +125,8 @@ public:
       }
       return false;
    }
+   /// Inserts all of the elements in the specified collection into this list,
+   /// starting at the specified position.
    bool addAll(int index, const CArrayList<Type> &list)
    {
       return addAll(index, list.elements);
@@ -134,7 +138,7 @@ public:
       ArrayResize(elements, 0, reserve);
    }
 
-   /// Returns a shallow copy of this ArrayList instance.
+   // / Returns a shallow copy of this ArrayList instance.
    //Object clone()
 
    /// Returns true if this list contains the specified element.
@@ -143,13 +147,13 @@ public:
       return indexOf(o) > -1;
    }
 
-   /// Increases the capacity of this ArrayList instance, if necessary,
-   /// to ensure that it can hold at least the number of elements
-   /// specified by the minimum capacity argument.
+   // / Increases the capacity of this ArrayList instance, if necessary,
+   // / to ensure that it can hold at least the number of elements
+   // / specified by the minimum capacity argument.
    //void ensureCapacity(int minCapacity)
 
-   /// Performs the given action for each element of the Iterable until all elements
-   /// have been processed or the action throws an exception.
+   // / Performs the given action for each element of the Iterable until all elements
+   // / have been processed or the action throws an exception.
    //void forEach(Consumer<? super E> action)
 
    /// Returns the element at the specified position in this list.
@@ -157,6 +161,7 @@ public:
    {
       return elements[index];
    }
+   /// Returns the element at the specified position in this list.
    Type operator[](int index)
    {
       return get(index);
@@ -240,14 +245,14 @@ public:
       return removeList(list, true);
    }
 
-   /// Removes all of the elements of this collection that satisfy the given predicate.
+   // / Removes all of the elements of this collection that satisfy the given predicate.
    //bool removeIf(Predicate<? super E> filter)
 
-   /// Removes from this list all of the elements whose index is between fromIndex,
-   /// inclusive, and toIndex, exclusive.
+   // / Removes from this list all of the elements whose index is between fromIndex,
+   // / inclusive, and toIndex, exclusive.
    //protected void removeRange(int fromIndex, int toIndex)
 
-   /// Replaces each element of this list with the result of applying the operator to that element.
+   // / Replaces each element of this list with the result of applying the operator to that element.
    //void replaceAll(UnaryOperator<E> operator)
 
    /// Returns the number of elements in this list.
@@ -256,9 +261,10 @@ public:
       return ArraySize(elements);
    }
 
-   /// Sorts this list according to the order induced by the specified Comparator.
+   // / Sorts this list according to the order induced by the specified Comparator.
    //void sort(Comparator<? super E> c)
 
+   /// @see https://www.mql5.com/en/docs/array/arraycopy
    int subList(Type &dst_array[], int dst_start = 0, int src_start = 0, int count = WHOLE_ARRAY)
    {
       return ArrayCopy(dst_array, elements, dst_start, src_start, count);

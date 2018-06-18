@@ -15,6 +15,10 @@
 */
 #include "SqlFile.mqh"
 
+/**
+ * Write data to a file format CSV.
+ * TODO inherit from CSqlFile.
+ */
 class CCsvFile
 {
 protected:

@@ -30,6 +30,9 @@ public:
    }
 };
 
+/**
+ * Counting data and printing out the accumulated information.
+ */
 class CStatistic
 {
 public:

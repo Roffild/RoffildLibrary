@@ -15,6 +15,12 @@
 */
 #include "SqlFile.mqh"
 
+/**
+ * Record optimization results in SQL and CSV format files.
+ *
+ * If the functions OnTesterDeinit() and OnTester() are not defined,
+ * then to use it is enough to include this file in the code.
+ */
 class CTesterSql : CSqlObject
 {
 protected:

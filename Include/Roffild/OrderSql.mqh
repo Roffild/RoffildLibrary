@@ -144,6 +144,9 @@ public:
    }
 };
 
+/**
+ * Record data of simulated orders (COrderData) in a file format MySQL.
+ */
 class COrderSql : public COrderData
 {
 protected:
@@ -171,6 +174,11 @@ public:
       tick(true);
    }
 
+   /**
+    * Adds a processing order.
+    * For best performance, you need to use one copy of the class for one pair (Symbol + Period).
+    * @param snapshot use the CSqlObjectSnapShot to save current data
+    */
    bool order(string symbol, ENUM_TIMEFRAMES period,
       int variant, bool sell, double openprice, datetime opentime,
       int takeprofit, int stoploss, CSqlObject *sqlobject, int maxbars = 0,

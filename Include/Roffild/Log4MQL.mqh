@@ -119,7 +119,7 @@ protected:
    }
 
 public:
-   /// Добавляет значение переменной к сообщению
+   /// Adds the value of the variable to the message
    _LOG_CLASS* a(const string value)
    {
       if (lglvl < Log4MqlLevel) {
@@ -134,16 +134,16 @@ public:
       args[count-1] = value;
       return GetPointer(this);
    }
-   /// Добавляет значение переменной к сообщению
+   /// Adds the value of the variable to the message
    _LOG_CLASS* add(const string value)
    {
       return a(value);
    }
 
-   /// Использовать Print() ?
+   /// Use Print() ?
    static bool doPrint;
 
-   /// Собирает и выводит сообщение
+   /// Compile and display a message
    /// @see http://www.slf4j.org/apidocs/org/slf4j/helpers/MessageFormatter.html
    virtual string build()
    {

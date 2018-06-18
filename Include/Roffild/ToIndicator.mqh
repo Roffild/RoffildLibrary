@@ -51,6 +51,12 @@ enum ENUM_TOINDICATOR
    TOINDICATOR_PARAMETER_MAX
 };
 
+/**
+ * Displaying data from Expert or Script using functions for indicators.
+ *
+ * Example:
+ * https://github.com/Roffild/RoffildLibrary/blob/master/Experts/Roffild/Examples/ToIndicator_Example.mq5
+ */
 class CToIndicator
 {
 public:
@@ -66,6 +72,9 @@ public:
       close();
    }
 
+   /**
+    * (First) Creating an indicator file.
+    */
    int init(const string _id, const bool _window = false, const bool ignore_visual = false)
    {
       id = _id;
@@ -77,6 +86,10 @@ public:
       return INVALID_HANDLE;
    }
 
+   /**
+    * Show the indicator on the graph.
+    * It is recommended to call at the end of testing, but you can not use it in OnDeinit().
+    */
    int show()
    {
       if (handleFile != INVALID_HANDLE && handleIndicator == INVALID_HANDLE) {
@@ -86,6 +99,9 @@ public:
       return handleIndicator;
    }
 
+   /**
+    * (Second) Add plot to indicator.
+    */
    bool addPlot(ENUM_DRAW_TYPE type, string name, double empty_value = 0)
    {
       if (handleFile != INVALID_HANDLE) {
@@ -100,12 +116,20 @@ public:
       return false;
    }
 
-   void buffer(double number, ushort plot, uchar color_index = 0, char buffer = -1, datetime time = 0)
+   /**
+    * Assigning a value to the indicator's buffer.
+    * @param value
+    * @param plot index of plot
+    * @param color_index index of color
+    * @param buffer index of buffer (-1 = the rules for assigning values depend on the type of the plot)
+    * @param time
+    */
+   void buffer(double value, ushort plot, uchar color_index = 0, char buffer = -1, datetime time = 0)
    {
       if (handleFile != INVALID_HANDLE) {
          FileWriteInteger(handleFile, TOINDICATOR_DATA, CHAR_VALUE);
          SToIndicator_Data data = {0};
-         data.number = number;
+         data.number = value;
          data.color_index = color_index;
          data.plot = plot;
          data.buffer = buffer;

@@ -31,8 +31,8 @@ protected:
    }
 
 public:
-   /// Из-за ограничения наследования этот конструктор пришлось сделать публичным,
-   /// но использовать его не рекомендуется.
+   /// Due to inheritance restriction, this class constructor had to be made public,
+   /// but it is not recommended to use it.
    CLog4MqlFile(LOG_LEVEL lvl, const string text) : CLog4Mql(lvl, text)
    {
       if (hlog == INVALID_HANDLE) {
@@ -64,7 +64,7 @@ public:
       return hlog;
    }
 
-   /// Собирает и выводит сообщение
+   /// Compile and display a message
    /// @see http://www.slf4j.org/apidocs/org/slf4j/helpers/MessageFormatter.html
    virtual string build()
    {

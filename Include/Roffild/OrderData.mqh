@@ -15,6 +15,9 @@
 */
 #include "Statistic.mqh"
 
+/**
+ * The object for COrderData.
+ */
 class COrderDataObject
 {
 public:
@@ -73,6 +76,9 @@ public:
    }
 };
 
+/**
+ * Simulation of orders with attached data for research.
+ */
 class COrderData
 {
 protected:
@@ -127,6 +133,10 @@ public:
       }
    }
 
+   /**
+    * Adds a processing order.
+    * For best performance, you need to use one copy of the class for one pair (Symbol + Period).
+    */
    bool order(string symbol, ENUM_TIMEFRAMES period,
       int variant, bool sell, double openprice, datetime opentime,
       int takeprofit, int stoploss, int maxbars = 0, int deviation = 5, COrderDataObject *order = NULL)
@@ -180,6 +190,10 @@ public:
       return true;
    }
 
+   /**
+    * Processes the added orders at the beginning of each day.
+    * @param now start processing immediately
+    */
    void tick(bool now = false)
    {
       if (enable == false) {
@@ -238,6 +252,14 @@ public:
       }
    }
 
+   /**
+    * @param[in] order
+    * @param[out] profit +take or -stop points
+    * @param[in] period
+    * @param[in] rates
+    * @param[in] bars
+    * @return -1 or number of bar in the rates[]
+    */
    int findBar(COrderDataObject *order, double &profit, ENUM_TIMEFRAMES period,
       MqlRates &rates[], const int bars)
    {

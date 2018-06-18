@@ -16,6 +16,12 @@
 
 #define CUnitTest_FUNC(NUM) virtual bool test_##NUM(string &testName)
 
+/**
+ * Base class for UnitTest
+ *
+ * Examples:
+ * https://github.com/Roffild/RoffildLibrary/blob/master/Scripts/Roffild/UnitTests
+ */
 class CUnitTest
 {
 private:

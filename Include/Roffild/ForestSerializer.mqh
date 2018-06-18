@@ -15,9 +15,15 @@
 */
 #include <Math/Alglib/dataanalysis.mqh>
 
+/**
+ * Save and load data for the class CDecisionForest (Alglib).
+ */
 class CForestSerializer
 {
 public:
+   /**
+    * Save to the text format Alglib (very slow).
+    */
    static void toText(CDecisionForest &forest, int hfile)
    {
       CSerializer ser;
@@ -29,6 +35,9 @@ public:
       FileWrite(hfile, ser.Get_String());
    }
 
+   /**
+    * Save to the text format Alglib (very slow).
+    */
    static bool toText(CDecisionForest &forest, const string filename, const bool common = true)
    {
       int hfile = FileOpen(filename, FILE_TXT|FILE_WRITE|(common ? FILE_COMMON : 0));
@@ -40,6 +49,9 @@ public:
       return true;
    }
 
+   /**
+    * Load from the text format Alglib (very slow).
+    */
    static void fromText(CDecisionForest &forest, int hfile)
    {
       CSerializer ser;
@@ -52,6 +64,9 @@ public:
       ser.Stop();
    }
 
+   /**
+    * Load from the text format Alglib (very slow).
+    */
    static bool fromText(CDecisionForest &forest, const string filename, const bool common = true)
    {
       int hfile = FileOpen(filename, FILE_TXT|FILE_READ|FILE_SHARE_READ|(common ? FILE_COMMON : 0));
@@ -63,6 +78,9 @@ public:
       return true;
    }
 
+   /**
+    * Save to the binary format (fast).
+    */
    static void toBinary(CDecisionForest &forest, int hfile)
    {
       FileWriteInteger(hfile, forest.m_nvars);
@@ -72,6 +90,9 @@ public:
       FileWriteArray(hfile, forest.m_trees);
    }
 
+   /**
+    * Save to the binary format (fast).
+    */
    static bool toBinary(CDecisionForest &forest, const string filename, const bool common = true)
    {
       int hfile = FileOpen(filename, FILE_BIN|FILE_WRITE|(common ? FILE_COMMON : 0));
@@ -83,6 +104,9 @@ public:
       return true;
    }
 
+   /**
+    * Load from the binary format (fast).
+    */
    static void fromBinary(CDecisionForest &forest, int hfile)
    {
       forest.m_nvars = FileReadInteger(hfile);
@@ -93,6 +117,9 @@ public:
       FileReadArray(hfile, forest.m_trees, 0, forest.m_bufsize);
    }
 
+   /**
+    * Load from the binary format (fast).
+    */
    static bool fromBinary(CDecisionForest &forest, const string filename, const bool common = true)
    {
       int hfile = FileOpen(filename, FILE_BIN|FILE_READ|FILE_SHARE_READ|(common ? FILE_COMMON : 0));

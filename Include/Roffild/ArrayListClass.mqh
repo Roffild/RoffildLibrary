@@ -14,13 +14,14 @@
 * https://github.com/Roffild/RoffildLibrary
 */
 
+/// ArrayList from Java for Class only
 template<typename Type>
 class CArrayListClass
 {
 protected:
    Type *elements[];
    int reserve;
-   bool useDelete;
+   bool useDelete; ///< Use delete() when cleaning?
 
    // Всё, что требует сравнение классов мне сейчас не нужно...
    //bool removeList(const Type *&list[], bool saveOnlyList = false)
@@ -49,10 +50,12 @@ public:
       reserve = _reserve;
    }
 
+   /// Use delete() when cleaning?
    bool getUseDelete()
    {
       return useDelete;
    }
+   /// Use delete() when cleaning?
    void setUseDelete(bool _useDelete)
    {
       useDelete = _useDelete;
@@ -89,6 +92,7 @@ public:
    {
       return addAll(ArraySize(elements), list);
    }
+   /// Appends all of the elements in the specified collection to the end of this list.
    bool addAll(const CArrayListClass<Type> &list)
    {
       return addAll(ArraySize(elements), list);
@@ -114,6 +118,8 @@ public:
       }
       return false;
    }
+   /// Inserts all of the elements in the specified collection into this list,
+   /// starting at the specified position.
    bool addAll(int index, const CArrayListClass<Type> &list)
    {
       return addAll(index, list.elements);
@@ -130,16 +136,16 @@ public:
       ArrayResize(elements, 0, reserve);
    }
 
-   /// Returns a shallow copy of this ArrayList instance.
+   // / Returns a shallow copy of this ArrayList instance.
    //Object clone()
 
-   /// Increases the capacity of this ArrayList instance, if necessary,
-   /// to ensure that it can hold at least the number of elements
-   /// specified by the minimum capacity argument.
+   // / Increases the capacity of this ArrayList instance, if necessary,
+   // / to ensure that it can hold at least the number of elements
+   // / specified by the minimum capacity argument.
    //void ensureCapacity(int minCapacity)
 
-   /// Performs the given action for each element of the Iterable until all elements
-   /// have been processed or the action throws an exception.
+   // / Performs the given action for each element of the Iterable until all elements
+   // / have been processed or the action throws an exception.
    //void forEach(Consumer<? super E> action)
 
    /// Returns the element at the specified position in this list.
@@ -147,6 +153,7 @@ public:
    {
       return elements[index];
    }
+   /// Returns the element at the specified position in this list.
    Type* operator[](int index)
    {
       return get(index);
@@ -189,6 +196,7 @@ public:
       return ArraySize(elements);
    }
 
+   /// @see https://www.mql5.com/en/docs/array/arraycopy
    int subList(Type *&dst_array[], int dst_start = 0, int src_start = 0, int count = WHOLE_ARRAY)
    {
       return ArrayCopy(dst_array, elements, dst_start, src_start, count);

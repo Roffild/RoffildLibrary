@@ -15,9 +15,36 @@
 */
 #include <Math/Alglib/matrix.mqh>
 
+/**
+ * MLPDataFile = CSV in a binary format
+ *
+ * The byte order is Little-Endian.
+ *
+ * Format:
+ * @code
+ * int - NIn (only for Alglib_MultilayerPerceptron and Alglib_RandomForest)
+ * int - NOut (only for Alglib_MultilayerPerceptron and Alglib_RandomForest)
+ * int - header size
+ *    if (header size > 0) {
+ *       int - length of string
+ *       byte[] - UTF-16LE
+ *       ...
+ *    }
+ * int - data size
+ * double[data size] - data array
+ * ...
+ * @endcode
+ */
 class CMLPDataFile
 {
 protected:
+   /**
+    * @param file path of file
+    * @param[in] nin NIn
+    * @param[in] nout NOut
+    * @param[in] _header
+    * @return handleFile
+    */
    int initWrite0(const string file, const int nin, const int nout, const string &_header[])
    {
       path = file;
@@ -35,6 +62,12 @@ protected:
       return handleFile;
    }
 
+   /**
+    * @param file path of file
+    * @param[out] nin NIn
+    * @param[out] nout NOut
+    * @return handleFile
+    */
    int initRead0(const string file, int &nin, int &nout)
    {
       path = file;
@@ -64,38 +97,79 @@ public:
       close();
    }
 
+   /**
+    * @param file number of file
+    * @param[in] nin NIn
+    * @param[in] nout NOut
+    * @return handleFile
+    */
    int initWrite(const int file, const int nin, const int nout)
    {
       ArrayResize(header, 0);
       return initWrite0("MLPData/mlp_" + (string)(file) + ".bin", nin, nout, header);
    }
 
+   /**
+    * @param file number of file
+    * @param[in] nin NIn
+    * @param[in] nout NOut
+    * @param[in] _header
+    * @return handleFile
+    */
    int initWrite(const int file, const int nin, const int nout, const string &_header[])
    {
       return initWrite0("MLPData/mlp_" + (string)(file) + ".bin", nin, nout, _header);
    }
 
+   /**
+    * @param file number of file
+    * @param[in] nin NIn
+    * @param[in] nout NOut
+    * @return handleFile
+    */
    int initWriteValidation(const int file, const int nin, const int nout)
    {
       ArrayResize(header, 0);
       return initWrite0("MLPData/mlp_" + (string)(file) + "_validation.bin", nin, nout, header);
    }
 
+   /**
+    * @param file number of file
+    * @param[in] nin NIn
+    * @param[in] nout NOut
+    * @param[in] _header
+    * @return handleFile
+    */
    int initWriteValidation(const int file, const int nin, const int nout, const string &_header[])
    {
       return initWrite0("MLPData/mlp_" + (string)(file) + "_validation.bin", nin, nout, _header);
    }
 
+   /**
+    * @param file number of file
+    * @param[out] nin NIn
+    * @param[out] nout NOut
+    * @return handleFile
+    */
    int initRead(const int file, int &nin, int &nout)
    {
       return initRead0("MLPData/mlp_" + (string)(file) + ".bin", nin, nout);
    }
 
+   /**
+    * @param file number of file
+    * @param[out] nin NIn
+    * @param[out] nout NOut
+    * @return handleFile
+    */
    int initReadValidation(const int file, int &nin, int &nout)
    {
       return initRead0("MLPData/mlp_" + (string)(file) + "_validation.bin", nin, nout);
    }
 
+   /**
+    * @return Number of recorded items.
+    */
    uint write(const double &data[])
    {
       const int size = ArraySize(data);
@@ -106,6 +180,9 @@ public:
       return 0;
    }
 
+   /**
+    * @return Number of recorded items.
+    */
    uint write(const CRowDouble &data)
    {
       uint count = 0;
@@ -117,6 +194,9 @@ public:
       return count;
    }
 
+   /**
+    * @return Number of recorded items.
+    */
    uint write(const CMatrixDouble &data)
    {
       uint count = 0;
@@ -133,6 +213,9 @@ public:
       return count;
    }
 
+   /**
+    * @return Number of elements read.
+    */
    uint read(double &data[], int &size)
    {
       if (handleFile != INVALID_HANDLE && FileIsEnding(handleFile) == false) {
@@ -143,6 +226,9 @@ public:
       return 0;
    }
 
+   /**
+    * @return Number of elements read.
+    */
    uint read(CMatrixDouble &data, const bool append = false)
    {
       const int reserve = 50000;
@@ -215,7 +301,7 @@ public:
       StringReplace(pcsv, ".bin", ".csv");
       int hcsv = FileOpen(pcsv, FILE_CSV|FILE_ANSI|FILE_WRITE|FILE_COMMON, delimiter);
       if (hcsv != INVALID_HANDLE) {
-         /// @BUG FileWriteArray not support CSV
+         // BUG FileWriteArray not support CSV
          double data[];
          int x, size;
          if ((size = ArraySize(mlpfile.header)) > 0) {

@@ -15,6 +15,26 @@
 */
 package roffild.mqlport;
 
+/**
+ * The class for returning a value through a function argument.
+ *
+ * <pre>{@code
+ * // The class must be initialized before the function is called.
+ * Pointer<Integer> number = new Pointer<>(0);
+ * setNumber(number);
+ *
+ * public void setNumber(Pointer<Integer> value)
+ * {
+ *    // You can not initialize a class inside a function
+ *    // because it creates a new class reference and value != number.
+ *    //value = new Pointer<>(11);
+ *
+ *    value.setValue(100);
+ * }
+ * }</pre>
+ *
+ * @param <T> primitive type
+ */
 public class Pointer<T>
 {
    public T value;
