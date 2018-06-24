@@ -36,7 +36,7 @@ MetaEditor может сохранять код в UTF-16, но кодировк
   * [ArrayList.mqh](Include/Roffild/ArrayList.mqh) - ArrayList из Java.
   * [ArrayListClass.mqh](Include/Roffild/ArrayListClass.mqh) - ArrayList из Java только для Класса.
   * [ForestSerializer.mqh](Include/Roffild/ForestSerializer.mqh) - Сохранение и загрузка данных для класса CDecisionForest (Alglib).
-  * [Log4MQL.mqh](Include/Roffild/Log4MQL.mqh) и [Log4MQL_tofile.mqh](Include/Roffild/Log4MQL_tofile.mqh) + [модуль](Include/Roffild/LogMX) ([скачать](https://roffild.com/Log4MQLParser.zip)) для [LogMX](http://www.logmx.com/)
+  * [Log4MQL.mqh](Include/Roffild/Log4MQL.mqh) и [Log4MQL_tofile.mqh](Include/Roffild/Log4MQL_tofile.mqh) + [модуль](Include/Roffild/LogMX) ([скачать](https://roffild.com/Log4MQLParser.zip)) для [LogMX](http://www.logmx.com/) - Logger for MQL5 (Log4MQL).
   * [OrderData.mqh](Include/Roffild/OrderData.mqh) - Симуляция ордеров с прикреплёнными данными для исследований.
     * [OrderSql.mqh](Include/Roffild/OrderSql.mqh) - Запись данных от ордеров (COrderData) в файл формата MySQL.
   * [SqlFile.mqh](Include/Roffild/SqlFile.mqh) - Запись данных в файл формата MySQL.
