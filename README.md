@@ -22,6 +22,8 @@ This library can be divided into interests:
 * experiments with AlgLib in machine learning;
 * using Apache Spark with Amazon Web Services (EC2 and EMR), when the capabilities of AlgLib ceased to be enough.
 
+MQL5 is part of the trading platform MetaTrader 5 (MT5). The version of MetaTrader 4 (MT4) with MQL4 is still used, but after the latest updates it is compatible with the MQL5 syntax. Officially, the version of MetaTrader 4 (MT4) is no longer supported, but for compatibility you can use ``` #property strict ``` at the beginning of the file.
+
 ### Documentation
 [MQL5](https://roffild.com/mql5/)<br/>
 [Java](https://roffild.com/java/)
