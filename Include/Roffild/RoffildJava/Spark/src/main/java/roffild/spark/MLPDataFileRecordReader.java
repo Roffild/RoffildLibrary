@@ -54,7 +54,8 @@ public class MLPDataFileRecordReader extends RecordReader<String[], Row>
          mlpfile.FileSeek(mlpfile.handleFile, start, 0);
       }
       mlpfile.setBufferSize(mlpfile.handleFile, 1024 * 1024);
-      if (mlpfile.header.size() == 0) {
+      if (mlpfile.header.size() != (nin.value + nout.value)) {
+         mlpfile.header.clear();
          for (int x = 0; x < nin.value; x++) {
             mlpfile.header.add("fd" + x);
          }
@@ -78,8 +79,8 @@ public class MLPDataFileRecordReader extends RecordReader<String[], Row>
    @Override
    public String[] getCurrentKey() throws IOException, InterruptedException
    {
-      if (header.length != size.value) {
-         header = Arrays.copyOf(mlpfile.header.toArray(new String[1]), size.value);
+      if (header.length < size.value) {
+         throw new IOException("header (" + header.length + ") < size (" + size.value + ")");
       }
       return header;
    }
