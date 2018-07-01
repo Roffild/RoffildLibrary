@@ -30,10 +30,11 @@ public class MqlArray<E> extends ArrayList<E>
          removeRange(newSize, size());
       } else if (newSize > size()) {
          try {
-            ensureCapacity(newSize);
+            final int DEFAULT_CAPACITY = 10; // from ArrayList
+            ensureCapacity(newSize > DEFAULT_CAPACITY ? newSize : DEFAULT_CAPACITY + 1);
             Field field = this.getClass().getSuperclass().getDeclaredField("size");
             field.setAccessible(true);
-            field.setInt(this, size() + newSize);
+            field.setInt(this, newSize);
             field.setAccessible(false);
          } catch (Exception e) {
             e.printStackTrace();
