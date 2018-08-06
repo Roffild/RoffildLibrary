@@ -52,7 +52,7 @@ MQL5 является частью торговой платформы MetaTrade
     * [AmazonUtils](Include/Roffild/RoffildJava/AmazonUtils/)
     * [RoffildLibrary](Include/Roffild/RoffildJava/RoffildLibrary/)
     * [Spark](Include/Roffild/RoffildJava/Spark/) - Чтение из MLPDataFile.
-    * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/build/resources/main/aws_ubuntu_user_data.sh) - Рабочий скрипт для поднятия агентов тестирования на Ubuntu 14 в AWS.
+    * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/src/resources/main/aws_ubuntu_user_data.sh) - Рабочий скрипт для поднятия агентов тестирования на Ubuntu 14 в AWS.
 * [Indicators/Roffild/](Indicators/Roffild/)
   * [ToIndicator.mqh](Indicators/Roffild/ToIndicator.mqh)
   * [ToIndicator.mq5](Indicators/Roffild/ToIndicator.mq5)
