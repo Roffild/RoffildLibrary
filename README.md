@@ -61,7 +61,7 @@ MQL5 is part of the trading platform MetaTrader 5 (MT5) for Forex, CFD and Futur
     * [AmazonUtils](Include/Roffild/RoffildJava/AmazonUtils/)
     * [RoffildLibrary](Include/Roffild/RoffildJava/RoffildLibrary/)
     * [Spark](Include/Roffild/RoffildJava/Spark/) - Reading from MLPDataFile.
-    * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/src/resources/main/aws_ubuntu_user_data.sh) - Working script for raising test agents on Ubuntu 14 in AWS.
+    * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/src/main/resources/aws_ubuntu_user_data.sh) - Working script for raising test agents on Ubuntu 14 in AWS.
 * [Indicators/Roffild/](Indicators/Roffild/)
   * [ToIndicator.mqh](Indicators/Roffild/ToIndicator.mqh)
   * [ToIndicator.mq5](Indicators/Roffild/ToIndicator.mq5)
