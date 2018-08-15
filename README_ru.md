@@ -22,6 +22,8 @@ MQL5 является частью торговой платформы MetaTrade
 ### Ссылки
 [Roffild.com](https://roffild.com/ru/)<br/>
 [Github](https://github.com/Roffild/RoffildLibrary)<br/>
+[GitLab](https://gitlab.com/Roffild/RoffildLibrary)<br/>
+[BitBucket](https://bitbucket.org/Roffild/roffildlibrary/)<br/>
 [MQL5.com: topic for discussion in English](https://www.mql5.com/en/forum/247134)<br/>
 [MQL5.com: тема для обсуждения на Русском](https://www.mql5.com/ru/forum/245373)
 
@@ -52,7 +54,7 @@ MQL5 является частью торговой платформы MetaTrade
     * [AmazonUtils](Include/Roffild/RoffildJava/AmazonUtils/)
     * [RoffildLibrary](Include/Roffild/RoffildJava/RoffildLibrary/)
     * [Spark](Include/Roffild/RoffildJava/Spark/) - Чтение из MLPDataFile.
-    * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/src/main/resources/aws_ubuntu_user_data.sh) - Рабочий скрипт для поднятия агентов тестирования на Ubuntu 14 в AWS.
+    * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/src/main/resources/aws_ubuntu_user_data.sh) - Рабочий скрипт для поднятия агентов тестирования на Ubuntu в AWS. [Инструкция здесь.](https://roffild.com/ru/agents.html)
 * [Indicators/Roffild/](Indicators/Roffild/)
   * [ToIndicator.mqh](Indicators/Roffild/ToIndicator.mqh)
   * [ToIndicator.mq5](Indicators/Roffild/ToIndicator.mq5)

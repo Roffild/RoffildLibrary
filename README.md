@@ -31,6 +31,8 @@ MQL5 is part of the trading platform MetaTrader 5 (MT5) for Forex, CFD and Futur
 ### Links
 [Roffild.com](https://roffild.com/)<br/>
 [Github](https://github.com/Roffild/RoffildLibrary)<br/>
+[GitLab](https://gitlab.com/Roffild/RoffildLibrary)<br/>
+[BitBucket](https://bitbucket.org/Roffild/roffildlibrary/)<br/>
 [MQL5.com: topic for discussion in English](https://www.mql5.com/en/forum/247134)<br/>
 [MQL5.com: тема для обсуждения на Русском](https://www.mql5.com/ru/forum/245373)
 
@@ -61,7 +63,7 @@ MQL5 is part of the trading platform MetaTrader 5 (MT5) for Forex, CFD and Futur
     * [AmazonUtils](Include/Roffild/RoffildJava/AmazonUtils/)
     * [RoffildLibrary](Include/Roffild/RoffildJava/RoffildLibrary/)
     * [Spark](Include/Roffild/RoffildJava/Spark/) - Reading from MLPDataFile.
-    * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/src/main/resources/aws_ubuntu_user_data.sh) - Working script for raising test agents on Ubuntu 14 in AWS.
+    * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/src/main/resources/aws_ubuntu_user_data.sh) - Working script for raising test agents on Ubuntu in AWS. [The documentation is here.](https://roffild.com/agents.html)
 * [Indicators/Roffild/](Indicators/Roffild/)
   * [ToIndicator.mqh](Indicators/Roffild/ToIndicator.mqh)
   * [ToIndicator.mq5](Indicators/Roffild/ToIndicator.mq5)
