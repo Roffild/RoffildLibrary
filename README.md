@@ -39,8 +39,8 @@ MQL5 is part of the trading platform MetaTrader 5 (MT5) for Forex, CFD and Futur
 -----------------
 * [Experts/Roffild/](Experts/Roffild/)
   * [AmazonUtils](Experts/Roffild/AmazonUtils) - Can be used as an example of developing a project in Java.
-  * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5)
-  * [Alglib_RandomForest.mq5](Experts/Roffild/Alglib_RandomForest.mq5)
+  * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5) - Create a neural network (Multilayer Perceptron) with two hidden layers.
+  * [Alglib_RandomForest.mq5](Experts/Roffild/Alglib_RandomForest.mq5) - Create a random forest.
   * [Examples/](Experts/Roffild/Examples/)
     * [ToIndicator_Example.mq5](Experts/Roffild/Examples/ToIndicator_Example.mq5)
 * [Include/Roffild/](Include/Roffild/)

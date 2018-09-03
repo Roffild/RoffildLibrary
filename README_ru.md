@@ -30,8 +30,8 @@ MQL5 является частью торговой платформы MetaTrade
 -----------------
 * [Experts/Roffild/](Experts/Roffild/)
   * [AmazonUtils](Experts/Roffild/AmazonUtils) - Можно использовать как пример разработки проекта на Java.
-  * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5)
-  * [Alglib_RandomForest.mq5](Experts/Roffild/Alglib_RandomForest.mq5)
+  * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5) - Создание нейронной сети (Multilayer Perceptron) с двумя скрытыми слоями.
+  * [Alglib_RandomForest.mq5](Experts/Roffild/Alglib_RandomForest.mq5) - Создание случайного леса.
   * [Examples/](Experts/Roffild/Examples/)
     * [ToIndicator_Example.mq5](Experts/Roffild/Examples/ToIndicator_Example.mq5)
 * [Include/Roffild/](Include/Roffild/)
