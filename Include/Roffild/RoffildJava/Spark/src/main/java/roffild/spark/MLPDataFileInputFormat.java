@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static roffild.mqlport.MqlLibrary.FileTell;
+
 /**
  * Only for local files
  */
@@ -73,9 +75,9 @@ public class MLPDataFileInputFormat extends FileInputFormat<String[], Row>
             long header = 0;
             try (MLPDataFileRecordReader mlp = new MLPDataFileRecordReader()) {
                mlp.initialize(new FileSplit(path, 0, length, new String[]{""}), null);
-               header = mlp.mlpfile.FileTell(mlp.mlpfile.handleFile);
+               header = FileTell(mlp.mlpfile.handleFile);
                if (mlp.nextKeyValue()) {
-                  minSize = mlp.mlpfile.FileTell(mlp.mlpfile.handleFile) - header;
+                  minSize = FileTell(mlp.mlpfile.handleFile) - header;
                } else {
                   throw new Exception("No key-value");
                }

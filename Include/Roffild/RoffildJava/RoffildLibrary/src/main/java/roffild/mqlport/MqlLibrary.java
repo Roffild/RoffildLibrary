@@ -19,7 +19,10 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MqlLibrary
 {
@@ -105,9 +108,18 @@ public class MqlLibrary
       return str.length();
    }
 
-   protected ArrayList<FileHandle> Handles = new ArrayList<>();
+   public static String DoubleToString(double value)
+   {
+      return DoubleToString(value, 8);
+   }
+   public static String DoubleToString(double value, int digits)
+   {
+      return String.format(Locale.ENGLISH, "%." + digits + "f", value);
+   }
 
-   public FileHandle getFileHandle(int file_handle) throws IOException
+   protected static ArrayList<FileHandle> Handles = new ArrayList<>();
+
+   public static FileHandle getFileHandle(int file_handle) throws IOException
    {
       if (file_handle <= INVALID_HANDLE || file_handle >= Handles.size()) {
          throw new IOException("INVALID_HANDLE");
@@ -115,7 +127,7 @@ public class MqlLibrary
       return Handles.get(file_handle);
    }
 
-   public RandomAccessFileLE getRas(int file_handle) throws IOException
+   public static RandomAccessFileLE getRas(int file_handle) throws IOException
    {
       if (file_handle <= INVALID_HANDLE || file_handle >= Handles.size()) {
          throw new IOException("INVALID_HANDLE");
@@ -123,7 +135,7 @@ public class MqlLibrary
       return Handles.get(file_handle).ras;
    }
 
-   protected class FileHandle
+   protected static class FileHandle
    {
       public RandomAccessFileLE ras;
       public int openFlags;
@@ -136,16 +148,15 @@ public class MqlLibrary
          this.ras = ras;
          this.openFlags = openFlags;
          this.delimiter = delimiter;
-         this.codepageBytes = 1;
-         if (codepage == 0) {
-            if ((openFlags & FILE_BIN) != 0) {
-               this.codepage = Charset.forName("UTF-16LE");
-               this.codepageBytes = 2;
-            } else {
+         this.codepage = Charset.forName("UTF-16LE");
+         this.codepageBytes = 2;
+         if ((openFlags & FILE_ANSI) != 0) {
+            if (codepage == 0) {
                this.codepage = Charset.defaultCharset();
+            } else {
+               this.codepage = Charset.forName("cp" + codepage);
             }
-         } else {
-            // not support
+            this.codepageBytes = 1;
          }
       }
 
@@ -162,7 +173,7 @@ public class MqlLibrary
       }
    }
 
-   public void setBufferSize(int file_handle, int size)
+   public static void setBufferSize(int file_handle, int size)
    {
       try {
          getRas(file_handle).setBufferSize(size);
@@ -171,93 +182,62 @@ public class MqlLibrary
       }
    }
 
-   private String PathFiles = "";
-   private String PathFilesCommon = "";
+   protected static String PathFiles = "";
+   protected static String PathFilesCommon =
+           System.getenv("APPDATA") + "\\MetaQuotes\\Terminal\\Common\\Files";
 
-   public String getPathFiles()
+   public static String getPathFiles()
    {
       return PathFiles;
    }
 
-   public void setPathFiles(String pathFiles)
+   public static void setPathFiles(String pathFiles)
    {
       PathFiles = pathFiles;
    }
 
-   public String getPathFilesCommon()
+   public static String getPathFilesCommon()
    {
       return PathFilesCommon;
    }
 
-   public void setPathFilesCommon(String pathFilesCommon)
+   public static void setPathFilesCommon(String pathFilesCommon)
    {
       PathFilesCommon = pathFilesCommon;
    }
 
-   public int FileOpen(String file_name, int open_flags)
+   public static int FileOpen(String file_name, int open_flags)
    {
       return FileOpen(file_name, open_flags, "\t", 0);
    }
-   public int FileOpen(String file_name, int open_flags, String delimiter)
+   public static int FileOpen(String file_name, int open_flags, String delimiter)
    {
       return FileOpen(file_name, open_flags, delimiter, 0);
    }
-   public int FileOpen(String file_name, int open_flags, String delimiter, long codepage)
+   public static int FileOpen(String file_name, int open_flags, String delimiter, long codepage)
    {
-      String full_file_name = ((open_flags & FILE_COMMON) != 0) ?
-              PathFilesCommon.concat("\\").concat(file_name) :
-              PathFiles.concat("\\").concat(file_name);
-      if ((open_flags & FILE_BIN) != 0) {
-         if ((open_flags & (FILE_WRITE | FILE_REWRITE)) != 0) {
-            try {
-               RandomAccessFileLE ras = new RandomAccessFileLE(full_file_name, "rw");
-               ras.setLength(0);
-               Handles.add(new FileHandle(ras, open_flags, delimiter, codepage));
-               return Handles.size() - 1;
-            } catch (IOException e) {
-               return INVALID_HANDLE;
-            }
-         } else {
-            try {
-               RandomAccessFileLE ras = new RandomAccessFileLE(full_file_name, "r");
-               Handles.add(new FileHandle(ras, open_flags, delimiter, codepage));
-               return Handles.size() - 1;
-            } catch (IOException e) {
-               return INVALID_HANDLE;
-            }
+      try {
+         RandomAccessFileLE ras;
+         Path full_file_name = Paths.get(file_name);
+         if (full_file_name.isAbsolute() == false) {
+            full_file_name = Paths.get((((open_flags & FILE_COMMON) != 0) ? PathFilesCommon : PathFiles),
+                    file_name);
          }
-      } else {
          if ((open_flags & (FILE_WRITE | FILE_REWRITE)) != 0) {
-            try {
-               /*RandomAccessFile ras = new RandomAccessFile(full_file_name, "rw");
-               ras.setLength(0);
-               BufferedWriter stream = new BufferedWriter(
-                       new OutputStreamWriter(new FileOutputStream(ras.getFD()),
-                               (open_flags & FILE_ANSI) != 0 ? "windows-1251" : "UTF-16LE"));
-               Handles.add(new FileHandle(ras, stream, (open_flags & FILE_ANSI) != 0));*/
-               throw new IOException();
-               //return Handles.size() - 1;
-            } catch (IOException e) {
-               return INVALID_HANDLE;
-            }
+            ras = new RandomAccessFileLE(full_file_name.toFile(), "rw");
+            ras.setLength(0);
+            // UTF-16 BOM ?
          } else {
-            try {
-               /*RandomAccessFile ras = new RandomAccessFile(full_file_name, "rw");
-               ras.setLength(0);
-               BufferedReader stream = new BufferedReader(
-                       new InputStreamReader(new FileInputStream(ras.getFD()),
-                               (open_flags & FILE_ANSI) != 0 ? "windows-1251" : "UTF-16LE"));
-               Handles.add(new FileHandle(ras, stream, (open_flags & FILE_ANSI) != 0));*/
-               throw new IOException();
-               //return Handles.size() - 1;
-            } catch (IOException e) {
-               return INVALID_HANDLE;
-            }
+            ras = new RandomAccessFileLE(full_file_name.toFile(), "r");
          }
+         Handles.add(new FileHandle(ras, open_flags, delimiter, codepage));
+         return Handles.size() - 1;
+      } catch (IOException e) {
+         return INVALID_HANDLE;
       }
    }
 
-   public void FileClose(int file_handle)
+   public static void FileClose(int file_handle)
    {
       try {
          getFileHandle(file_handle).close();
@@ -266,7 +246,7 @@ public class MqlLibrary
       }
    }
 
-   public void FileFlush(int file_handle)
+   public static void FileFlush(int file_handle)
    {
       try {
          getRas(file_handle).flush();
@@ -275,7 +255,7 @@ public class MqlLibrary
       }
    }
 
-   public boolean FileSeek(int file_handle, long offset, int origin)
+   public static boolean FileSeek(int file_handle, long offset, int origin)
    {
       try {
          long shift = 0;
@@ -292,7 +272,7 @@ public class MqlLibrary
       return false;
    }
 
-   public long FileTell(int file_handle)
+   public static long FileTell(int file_handle)
    {
       try {
          return getRas(file_handle).tell();
@@ -302,7 +282,7 @@ public class MqlLibrary
       return 0;
    }
 
-   public boolean FileIsEnding(int file_handle)
+   public static boolean FileIsEnding(int file_handle)
    {
       try {
          return getRas(file_handle).isEnding();
@@ -312,11 +292,11 @@ public class MqlLibrary
       return true;
    }
 
-   public int FileWriteInteger(int file_handle, int value)
+   public static int FileWriteInteger(int file_handle, int value)
    {
       return FileWriteInteger(file_handle, value, INT_VALUE);
    }
-   public int FileWriteInteger(int file_handle, int value, int size)
+   public static int FileWriteInteger(int file_handle, int value, int size)
    {
       try {
          if (size < CHAR_VALUE || size > INT_VALUE) {
@@ -340,11 +320,11 @@ public class MqlLibrary
       return 0;
    }
 
-   public int FileReadInteger(int file_handle)
+   public static int FileReadInteger(int file_handle)
    {
       return FileReadInteger(file_handle, INT_VALUE);
    }
-   public int FileReadInteger(int file_handle, int size)
+   public static int FileReadInteger(int file_handle, int size)
    {
       try {
          if (size < CHAR_VALUE || size > INT_VALUE) {
@@ -364,7 +344,7 @@ public class MqlLibrary
       return 0;
    }
 
-   public int FileWriteLong(int file_handle, long value)
+   public static int FileWriteLong(int file_handle, long value)
    {
       try {
          getRas(file_handle).writeLong(value);
@@ -375,7 +355,7 @@ public class MqlLibrary
       return 0;
    }
 
-   public long FileReadLong(int file_handle)
+   public static long FileReadLong(int file_handle)
    {
       try {
          return getRas(file_handle).readLong();
@@ -385,7 +365,7 @@ public class MqlLibrary
       return 0;
    }
 
-   public int FileWriteFloat(int file_handle, float value)
+   public static int FileWriteFloat(int file_handle, float value)
    {
       try {
          getRas(file_handle).writeFloat(value);
@@ -396,7 +376,7 @@ public class MqlLibrary
       return 0;
    }
 
-   public float FileReadFloat(int file_handle)
+   public static float FileReadFloat(int file_handle)
    {
       try {
          return getRas(file_handle).readFloat();
@@ -406,7 +386,7 @@ public class MqlLibrary
       return 0;
    }
 
-   public int FileWriteDouble(int file_handle, double value)
+   public static int FileWriteDouble(int file_handle, double value)
    {
       try {
          getRas(file_handle).writeDouble(value);
@@ -417,7 +397,7 @@ public class MqlLibrary
       return 0;
    }
 
-   public double FileReadDouble(int file_handle)
+   public static double FileReadDouble(int file_handle)
    {
       try {
          return getRas(file_handle).readDouble();
@@ -427,17 +407,17 @@ public class MqlLibrary
       return 0;
    }
 
-   public int FileWriteString(int file_handle, final String text)
+   public static int FileWriteString(int file_handle, final String text)
    {
       return FileWriteString(file_handle, text, -1);
    }
-   public int FileWriteString(int file_handle, final String text, int length)
+   public static int FileWriteString(int file_handle, final String text, int length)
    {
       try {
          if (length == -1) {
             length = text.length();
          }
-         byte[] str = getFileHandle(file_handle).codepage.encode(text.substring(0, length)).array();
+         byte[] str = text.getBytes(getFileHandle(file_handle).codepage);
          getRas(file_handle).write(str, 0, str.length);
          return length;
       } catch (Exception e) {
@@ -446,7 +426,12 @@ public class MqlLibrary
       return 0;
    }
 
-   public String FileReadString(int file_handle, int length)
+   public static int FileWrite(int file_handle, final String text)
+   {
+      return FileWriteString(file_handle, text + "\r\n");
+   }
+
+   public static String FileReadString(int file_handle, int length)
    {
       try {
          FileHandle file = getFileHandle(file_handle);
@@ -465,15 +450,15 @@ public class MqlLibrary
       return "";
    }
 
-   public long FileWriteArray(int file_handle, Object[] array)
+   public static long FileWriteArray(int file_handle, Object[] array)
    {
       return FileWriteArray(file_handle, array, 0, -1);
    }
-   public long FileWriteArray(int file_handle, Object[] array, int start)
+   public static long FileWriteArray(int file_handle, Object[] array, int start)
    {
       return FileWriteArray(file_handle, array, start, -1);
    }
-   public long FileWriteArray(int file_handle, Object[] array, int start, int count)
+   public static long FileWriteArray(int file_handle, Object[] array, int start, int count)
    {
       try {
          if (start < 0 || count < -1) {
@@ -521,15 +506,15 @@ public class MqlLibrary
       return 0;
    }
 
-   /*public long FileReadArray(int file_handle, Object[] array)
+   /*public static long FileReadArray(int file_handle, Object[] array)
    {
       return FileReadArray(file_handle, array, 0, -1);
    }
-   public long FileReadArray(int file_handle, Object[] array, int start)
+   public static long FileReadArray(int file_handle, Object[] array, int start)
    {
       return FileReadArray(file_handle, array, start, -1);
    }
-   public <T> long FileReadArray(int file_handle, MqlArray<T> array, int start, int count)
+   public static <T> long FileReadArray(int file_handle, MqlArray<T> array, int start, int count)
    {
       try {
          if (start < 0 || count < -1) {
@@ -581,7 +566,7 @@ public class MqlLibrary
       }
       return 0;
    }*/
-   public long FileReadArray(int file_handle, MqlArray<Double> array, int start, int count)
+   public static long FileReadArray(int file_handle, MqlArray<Double> array, int start, int count)
    {
       try {
          if (start < 0 || count < -1) {
@@ -604,11 +589,11 @@ public class MqlLibrary
       return 0;
    }
 
-   public long FileWriteStruct(int file_handle, Object value)
+   public static long FileWriteStruct(int file_handle, Object value)
    {
       return FileWriteStruct(file_handle, value, -1);
    }
-   public long FileWriteStruct(int file_handle, Object value, int size)
+   public static long FileWriteStruct(int file_handle, Object value, int size)
    {
       try {
          long bytes = 0;
@@ -662,7 +647,7 @@ public class MqlLibrary
       return 0;
    }
 
-   /*public long FileWriteArray(int file_handle, final boolean array[])
+   /*public static long FileWriteArray(int file_handle, final boolean array[])
    {
       Boolean[] booleans = new Boolean[array.length];
       for (int x = array.length-1; x > -1; x--) {
@@ -670,7 +655,7 @@ public class MqlLibrary
       }
       return FileWriteArray(file_handle, booleans);
    }
-   public long FileWriteArray(int file_handle, final byte array[])
+   public static long FileWriteArray(int file_handle, final byte array[])
    {
       Byte[] bytes = new Byte[array.length];
       for (int x = array.length-1; x > -1; x--) {
@@ -678,7 +663,7 @@ public class MqlLibrary
       }
       return FileWriteArray(file_handle, bytes);
    }
-   public long FileWriteArray(int file_handle, final char array[])
+   public static long FileWriteArray(int file_handle, final char array[])
    {
       Character[] characters = new Character[array.length];
       for (int x = array.length-1; x > -1; x--) {
@@ -686,7 +671,7 @@ public class MqlLibrary
       }
       return FileWriteArray(file_handle, characters);
    }
-   public long FileWriteArray(int file_handle, final short array[])
+   public static long FileWriteArray(int file_handle, final short array[])
    {
       Short[] shorts = new Short[array.length];
       for (int x = array.length-1; x > -1; x--) {
@@ -694,7 +679,7 @@ public class MqlLibrary
       }
       return FileWriteArray(file_handle, shorts);
    }
-   public long FileWriteArray(int file_handle, final int array[])
+   public static long FileWriteArray(int file_handle, final int array[])
    {
       Integer[] ints = new Integer[array.length];
       for (int x = array.length-1; x > -1; x--) {
@@ -702,7 +687,7 @@ public class MqlLibrary
       }
       return FileWriteArray(file_handle, ints);
    }
-   public long FileWriteArray(int file_handle, final long array[])
+   public static long FileWriteArray(int file_handle, final long array[])
    {
       Long[] longs = new Long[array.length];
       for (int x = array.length-1; x > -1; x--) {
@@ -710,7 +695,7 @@ public class MqlLibrary
       }
       return FileWriteArray(file_handle, longs);
    }
-   public long FileWriteArray(int file_handle, final float array[])
+   public static long FileWriteArray(int file_handle, final float array[])
    {
       Float[] floats = new Float[array.length];
       for (int x = array.length-1; x > -1; x--) {
@@ -718,7 +703,7 @@ public class MqlLibrary
       }
       return FileWriteArray(file_handle, floats);
    }*/
-   public long FileWriteArray(int file_handle, final double array[])
+   public static long FileWriteArray(int file_handle, final double array[])
    {
       Double[] doubles = new Double[array.length];
       for (int x = array.length-1; x > -1; x--) {

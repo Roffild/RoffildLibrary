@@ -27,7 +27,9 @@ import roffild.mqlport.MqlArray;
 import roffild.mqlport.Pointer;
 
 import java.io.IOException;
-import java.util.Arrays;
+
+import static roffild.mqlport.MqlLibrary.*;
+
 
 public class MLPDataFileRecordReader extends RecordReader<String[], Row>
 {
@@ -51,9 +53,9 @@ public class MLPDataFileRecordReader extends RecordReader<String[], Row>
       mlpfile = new MLPDataFile();
       mlpfile.initRead0(path.toString(), nin, nout);
       if (start > 0) {
-         mlpfile.FileSeek(mlpfile.handleFile, start, 0);
+         FileSeek(mlpfile.handleFile, start, 0);
       }
-      mlpfile.setBufferSize(mlpfile.handleFile, 1024 * 1024);
+      setBufferSize(mlpfile.handleFile, 1024 * 1024);
       if (mlpfile.header.size() != (nin.value + nout.value)) {
          mlpfile.header.clear();
          for (int x = 0; x < nin.value; x++) {
@@ -69,7 +71,7 @@ public class MLPDataFileRecordReader extends RecordReader<String[], Row>
    @Override
    public boolean nextKeyValue() throws IOException, InterruptedException
    {
-      if (mlpfile.handleFile > -1 && (tell = mlpfile.FileTell(mlpfile.handleFile)) < finish &&
+      if (mlpfile.handleFile > -1 && (tell = FileTell(mlpfile.handleFile)) < finish &&
               mlpfile.read(data, size) > 0) {
          return true;
       }

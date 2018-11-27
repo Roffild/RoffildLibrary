@@ -15,11 +15,11 @@
 */
 package roffild;
 
-import roffild.mqlport.MqlLibrary;
-
 import java.io.Closeable;
 
-public class Serialization extends MqlLibrary implements Closeable
+import static roffild.mqlport.MqlLibrary.*;
+
+public class Serialization implements Closeable
 {
    public static final int SERIALIZATION_ERROR = 0;
 

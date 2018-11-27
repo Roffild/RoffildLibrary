@@ -20,8 +20,9 @@ import roffild.mqlport.MqlLibrary;
 import roffild.mqlport.Pointer;
 
 import java.io.Closeable;
+import static roffild.mqlport.MqlLibrary.*;
 
-public class MLPDataFile extends MqlLibrary implements Closeable
+public class MLPDataFile implements Closeable
 {
    public int initWrite0(final String file, final int nin, final int nout, final String _header[])
    {
