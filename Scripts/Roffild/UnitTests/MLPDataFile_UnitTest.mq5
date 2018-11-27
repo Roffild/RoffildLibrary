@@ -127,6 +127,14 @@ protected:
       string tm;
       return test_2(tm);
    }
+
+   CUnitTest_FUNC(11)
+   {
+      testName = "Read from Python";
+      filenum = 2147483646;
+      string tm;
+      return test_2(tm);
+   }
 };
 
 void OnStart()
