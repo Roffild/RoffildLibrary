@@ -97,6 +97,7 @@ public class AlglibRandomForest
             ContinuousSplit split = (ContinuousSplit)node.split();
             tree.add(new Pointer<>((double)split.featureIndex()));
             // <= vs <
+            // https://github.com/apache/spark/blame/master/mllib/src/main/scala/org/apache/spark/ml/tree/Split.scala#L161
             // org.apache.spark.ml.tree.ContinuousSplit.shouldGoLeft(features: Vector) use <=
             // CDForest::DFProcessInternal() use <
             Pointer<Double> th = new Pointer<>(split.threshold() * (double)(1.0D + 1.0E-12D));
