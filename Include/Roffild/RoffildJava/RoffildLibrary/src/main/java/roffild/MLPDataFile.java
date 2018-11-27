@@ -165,17 +165,6 @@ public class MLPDataFile implements Closeable
       return count;
    }
 
-   static void convert(final CRowDouble &data, double &array[])
-   {
-      final int size = data.Size();
-      ArrayResize(array, size);
-      if (size > 0) {
-         for (int y = 0; y < size; y++) {
-            array[y] = data[y];
-         }
-      }
-   }*/
-
    public void flush()
    {
       if (handleFile != INVALID_HANDLE) {
@@ -192,15 +181,15 @@ public class MLPDataFile implements Closeable
       }
    }
 
-   /*public boolean convertToCsv(final int file)
+   public static boolean convertToCsv(final int file)
    {
       return convertToCsv(file, false, ";");
    }
-   public boolean convertToCsv(final int file, final boolean validation)
+   public static boolean convertToCsv(final int file, final boolean validation)
    {
       return convertToCsv(file, validation, ";");
    }
-   public boolean convertToCsv(final int file, final boolean validation, final String delimiter)
+   public static boolean convertToCsv(final int file, final boolean validation, final String delimiter)
    {
       MLPDataFile mlpfile = new MLPDataFile();
       Pointer<Integer> nin = new Pointer<>(0);
@@ -218,25 +207,26 @@ public class MLPDataFile implements Closeable
       int hcsv = FileOpen(pcsv, FILE_CSV|FILE_ANSI|FILE_WRITE|FILE_COMMON, delimiter);
       if (hcsv != INVALID_HANDLE) {
          /// @BUG FileWriteArray not support CSV
-         double data[];
-         int x, size;
-         if ((size = ArraySize(mlpfile.header)) > 0) {
-            for (x = 0; x < (size - 1); x++) {
+         MqlArray<Double> data = new MqlArray<>();
+         int x;
+         Pointer<Integer> size = new Pointer<>(0);
+         if ((size.value = ArraySize(mlpfile.header)) > 0) {
+            for (x = 0; x < (size.value - 1); x++) {
                FileWriteString(hcsv, mlpfile.header.get(x) + delimiter);
             }
-            FileWrite(hcsv, mlpfile.header[size - 1]);
+            FileWrite(hcsv, mlpfile.header.get(size.value - 1));
          }
          while (mlpfile.read(data, size) > 0) {
-            for (x = 0; x < (size - 1); x++) {
-               FileWriteString(hcsv, Double.toString(data[x]) + delimiter);
+            for (x = 0; x < (size.value - 1); x++) {
+               FileWriteString(hcsv, DoubleToString(data.get(x)) + delimiter);
             }
-            FileWrite(hcsv, Double.toString(data[size - 1]));
+            FileWrite(hcsv, DoubleToString(data.get(size.value - 1)));
          }
          FileClose(hcsv);
          return true;
       }
       return false;
-   }*/
+   }
 
    @Override
    protected void finalize() throws Throwable
