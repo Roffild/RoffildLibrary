@@ -72,6 +72,7 @@ MQL5 is part of the trading platform MetaTrader 5 (MT5) for Forex, CFD and Futur
 * [Scripts/Roffild/](Scripts/Roffild/)
   * [MLPDataFileSparkTest](Scripts/Roffild/MLPDataFileSparkTest) - Example project for Spark and MLPDataFile test.
   * [UnitTests](Scripts/Roffild/UnitTests)
+* [buildall_and_tests.py](buildall_and_tests.py) - The script builds all components of the library and run tests.
 
 ## Installation
 

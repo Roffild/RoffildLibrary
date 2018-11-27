@@ -1,4 +1,6 @@
 ﻿# gitignore
 *.ex5
 *.ex4
+*.log
+/_buildall/
 /mql5doc/

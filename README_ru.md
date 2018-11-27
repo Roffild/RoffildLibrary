@@ -63,6 +63,7 @@ MQL5 является частью торговой платформы MetaTrade
 * [Scripts/Roffild/](Scripts/Roffild/)
   * [MLPDataFileSparkTest](Scripts/Roffild/MLPDataFileSparkTest) - Пример проекта для Spark и тест MLPDataFile.
   * [UnitTests](Scripts/Roffild/UnitTests)
+* [buildall_and_tests.py](buildall_and_tests.py) - Скрипт сборки всех компонентов библиотеки и запуска тестов.
 
 ## Установка
 
