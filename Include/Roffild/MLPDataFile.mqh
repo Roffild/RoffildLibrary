@@ -197,7 +197,7 @@ public:
    /**
     * @return Number of recorded items.
     */
-   uint write(const CMatrixDouble &data)
+   uint writeAll(const CMatrixDouble &data)
    {
       uint count = 0;
       if (handleFile != INVALID_HANDLE) {
@@ -229,7 +229,7 @@ public:
    /**
     * @return Number of elements read.
     */
-   uint read(CMatrixDouble &data, const bool append = false)
+   uint readAll(CMatrixDouble &data, const bool append = false)
    {
       const int reserve = 50000;
       uint count = 0;
@@ -282,6 +282,7 @@ public:
    {
       if (handleFile != INVALID_HANDLE) {
          FileClose(handleFile);
+         handleFile = INVALID_HANDLE;
       }
    }
 

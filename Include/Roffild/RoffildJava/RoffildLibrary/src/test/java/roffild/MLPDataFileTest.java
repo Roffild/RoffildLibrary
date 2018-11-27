@@ -15,57 +15,79 @@
 */
 package roffild;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import roffild.mqlport.MqlArray;
 import roffild.mqlport.Pointer;
 
-import java.io.IOException;
-import java.nio.file.Paths;
+import static roffild.mqlport.MqlLibrary.INVALID_HANDLE;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MLPDataFileTest
 {
-   public static String tempFolder;
-   Pointer<Integer> nin = new Pointer<>(1);
-   Pointer<Integer> nout = new Pointer<>(1);
+   final int filenum = 2147483645;
+   final int nin = 33;
+   final int nout = 2;
+   static String header[] = new String[35];
+   static double data[][] = new double[50][35];
 
-   @BeforeClass
-   public static void createFolder() throws IOException
+   @Test
+   public void test01_Write()
    {
-      tempFolder = "tempFolder" + System.currentTimeMillis();
-      java.nio.file.Files.createDirectory(Paths.get(tempFolder));
-   }
-
-   @AfterClass
-   public static void deleteFolder() throws IOException
-   {
-      //Files.walk().sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
-      //java.nio.file.Files.delete(Paths.get("tempFolder" + System.currentTimeMillis()));
+      for (int x = 0; x < 35; x++) {
+         header[x] = "col" + Integer.toString(x);
+      }
+      for (int x = 0; x < 50; x++) {
+         for (int y = 0; y < 35; y++) {
+            data[x][y] = (nin * nout + x * y) / 5.55;
+         }
+      }
+      try (MLPDataFile dfile = new MLPDataFile()) {
+         Assert.assertFalse(dfile.initWrite(filenum, nin, nout, header) == INVALID_HANDLE);
+         dfile.writeAll(data);
+      }
+      MLPDataFile.convertToCsv(filenum);
    }
 
    @Test
-   public void initRead0()
+   public void test02_Read()
    {
-      MLPDataFile file = new MLPDataFile();
-      tempFolder = "d:\\MQLProjects\\MQL5\\FilesCommon";
-      file.setPathFilesCommon(tempFolder);
-      file.initRead(601, nin, nout);
-
-      MLPDataFile out = new MLPDataFile();
-      out.setPathFilesCommon(tempFolder);
-      out.initWrite(888, nin.value, nout.value, file.header.toArray(new String[1]));
-      out.flush();
-      MqlArray<Double> data = new MqlArray<>();
-      Pointer<Integer> size = new Pointer<>(0);
-      while (file.read(data, size) > 0) {
-         double[] in = new double[data.size()];
-         for (int x = in.length - 1; x > -1; x--) {
-            in[x] = data.get(x);
+      Pointer<Integer> _nin = new Pointer<>(0);
+      Pointer<Integer> _nout = new Pointer<>(0);
+      MqlArray<Double[]> _data = new MqlArray<>();
+      MLPDataFile dfile = new MLPDataFile();
+      dfile.initRead(filenum, _nin, _nout);
+      dfile.readAll(_data);
+      Assert.assertFalse(nin != _nin.value || nout != _nout.value);
+      Assert.assertArrayEquals(header, dfile.header.toArray(new String[0]));
+      Assert.assertFalse(data.length != _data.size());
+      for (int x = 0; x < 50; x++) {
+         for (int y = 0; y < 35; y++) {
+            Assert.assertEquals(data[x][y], _data.get(x)[y], 1e-8);
          }
-         out.write(in);
       }
-      out.close();
-      file.close();
+   }
+
+   @Test
+   public void test03_ReadAppend()
+   {
+      Pointer<Integer> _nin = new Pointer<>(0);
+      Pointer<Integer> _nout = new Pointer<>(0);
+      MqlArray<Double[]> _data = new MqlArray<>();
+      final int shift = 15;
+      _data.resize(shift, 0);
+      MLPDataFile dfile = new MLPDataFile();
+      dfile.initRead(filenum, _nin, _nout);
+      dfile.readAll(_data, true);
+      Assert.assertFalse(nin != _nin.value || nout != _nout.value);
+      Assert.assertArrayEquals(header, dfile.header.toArray(new String[0]));
+      Assert.assertFalse(data.length != (_data.size() - shift));
+      for (int x = 0; x < 50; x++) {
+         for (int y = 0; y < 35; y++) {
+            Assert.assertEquals(data[x][y], _data.get(x + shift)[y], 1e-8);
+         }
+      }
    }
 }

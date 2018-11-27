@@ -66,7 +66,7 @@ public:
          classes = 1;
       }
       ntdata.Resize(0, 0);
-      const uint read = dfile.read(ntdata);
+      const uint read = dfile.readAll(ntdata);
       const int size = ntdata.Size();
       Print("Init OK, read = ", read, " vars = ", vars, " classes = ", classes, " size = ", size);
       CMLPDataFile validfile();
@@ -77,7 +77,7 @@ public:
                Print("ERROR: Validation, NIn or NOut incorrect");
                return Tester_Show_Incorrect ? INIT_PARAMETERS_INCORRECT : INIT_FAILED;
             }
-            validfile.read(validdata);
+            validfile.readAll(validdata);
          } else {
             Print("ERROR: Init Validation File not found!");
             return Tester_Show_Incorrect ? INIT_PARAMETERS_INCORRECT : INIT_FAILED;

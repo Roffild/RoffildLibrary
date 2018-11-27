@@ -106,7 +106,7 @@ public:
       }
       // тут должна быть проверка на выполнение в облаке только с параметром LBFG = true
       ntdata.Resize(0, 0);
-      const uint read = dfile.read(ntdata);
+      const uint read = dfile.readAll(ntdata);
       const int size = ntdata.Size();
       if (FoldsCount < 2 || int(FoldsCount) > size) {
          Print("ERROR: Init FoldsCount < 2 || FoldsCount > ", size);
@@ -137,7 +137,7 @@ public:
                return Tester_Show_Incorrect ? INIT_PARAMETERS_INCORRECT : INIT_FAILED;
             }
             valid.Validation = size;
-            validfile.read(ntdata, true);
+            validfile.readAll(ntdata, true);
          } else {
             Print("ERROR: Init Validation File not found!");
             return Tester_Show_Incorrect ? INIT_PARAMETERS_INCORRECT : INIT_FAILED;

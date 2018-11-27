@@ -102,24 +102,16 @@ public class MLPDataFile extends MqlLibrary implements Closeable
       return 0;
    }
 
-   /*long write(final CRowDouble &data)
+   /**
+    * @return Number of recorded items.
+    */
+   public long writeAll(final double data[][])
    {
       long count = 0;
       if (handleFile != INVALID_HANDLE) {
-         double array[];
-         convert(data, array);
-         count += write(array);
-      }
-      return count;
-   }
-
-   long write(final CMatrixDouble &data)
-   {
-      long count = 0;
-      if (handleFile != INVALID_HANDLE) {
-         final int size = data.Size();
+         final int size = data.length;
          if (size > 0) {
-            if (data[0].Size() > 0) {
+            if (data[0].length > 0) {
                for (int x = 0; x < size; x++) {
                   count += write(data[x]);
                }
@@ -127,7 +119,7 @@ public class MLPDataFile extends MqlLibrary implements Closeable
          }
       }
       return count;
-   }*/
+   }
 
    public long read(MqlArray<Double> data, Pointer<Integer> size)
    {
@@ -139,33 +131,35 @@ public class MLPDataFile extends MqlLibrary implements Closeable
       return 0;
    }
 
-   /*long read(CMatrixDouble &data, final bool append = false)
+   /**
+    * @return Number of elements read.
+    */
+   long readAll(MqlArray<Double[]> data)
+   {
+      return readAll(data, false);
+   }
+   long readAll(MqlArray<Double[]> data, final boolean append)
    {
       final int reserve = 50000;
       long count = 0;
       if (handleFile != INVALID_HANDLE) {
          int size1 = 0;
-         int size2 = 0, sz = 0;
+         Pointer<Integer> sz = new Pointer<>(0);
          if (append) {
-            size1 = data.Size();
-            if (size1 > 0) {
-               size2 = data[0].Size();
-            }
+            size1 = data.size();
          }
-         double dt[];
-         data.Resize(size1 + reserve, size2);
-         while (read(dt, sz) == sz && sz > 0) {
+         MqlArray<Double> dt = new MqlArray<>();
+         ArrayResize(data, size1 + reserve);
+         Double to[] = new Double[0];
+         while (read(dt, sz) == sz.value && sz.value > 0) {
             size1++;
-            if (sz > size2) {
-               size2 = sz;
-            }
             if ((size1 % reserve) == 0) {
-               data.Resize(size1 + reserve, size2);
+               ArrayResize(data, size1 + reserve);
             }
-            data[size1 - 1] = dt;
-            count += sz;
+            data.set(size1 - 1, dt.toArray(to));
+            count += sz.value;
          }
-         data.Resize(size1, size2);
+         ArrayResize(data, size1);
       }
       return count;
    }
@@ -193,6 +187,7 @@ public class MLPDataFile extends MqlLibrary implements Closeable
    {
       if (handleFile != INVALID_HANDLE) {
          FileClose(handleFile);
+         handleFile = INVALID_HANDLE;
       }
    }
 

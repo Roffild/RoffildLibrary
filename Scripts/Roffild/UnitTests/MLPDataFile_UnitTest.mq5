@@ -30,6 +30,7 @@ public:
 
 protected:
    int filenum, nin, nout;
+   string header[35];
    CMatrixDouble data;
 
    CUnitTest_FUNC(1)
@@ -37,19 +38,25 @@ protected:
       testName = "Write";
       data.Resize(50, 35);
       double dt[35];
-      MathSrand(uint(GetMicrosecondCount()));
       filenum = INT_MAX;
-      nin = MathRand();
-      nout = MathRand();
+      nin = 33;
+      nout = 2;
+      for (int x = 0; x < 35; x++) {
+         header[x] = "col" + string(x);
+      }
       for (int x = 0; x < 50; x++) {
          for (int y = 0; y < 35; y++) {
-            dt[y] = MathRand();
+            dt[y] = (nin * nout + x * y) / 5.55;
          }
          data[x] = dt;
       }
       CMLPDataFile dfile;
-      dfile.initWrite(filenum, nin, nout);
-      dfile.write(data);
+      if (dfile.initWrite(filenum, nin, nout, header) == INVALID_HANDLE) {
+         return false;
+      }
+      dfile.writeAll(data);
+      dfile.close();
+      dfile.convertToCsv(filenum);
       return true;
    }
 
@@ -60,9 +67,14 @@ protected:
       CMatrixDouble _data;
       CMLPDataFile dfile;
       dfile.initRead(filenum, _nin, _nout);
-      dfile.read(_data);
+      dfile.readAll(_data);
       if (nin != _nin || nout != _nout) {
          return false;
+      }
+      for (int x = 0; x < 35; x++) {
+         if (header[x] != dfile.header[x]) {
+            return false;
+         }
       }
       if (data.Size() != _data.Size()) {
          return false;
@@ -82,13 +94,18 @@ protected:
       testName = "Read (append)";
       int _nin, _nout;
       CMatrixDouble _data;
-      int shift = 15;
+      const int shift = 15;
       _data.Resize(shift, 50);
       CMLPDataFile dfile;
       dfile.initRead(filenum, _nin, _nout);
-      dfile.read(_data, true);
+      dfile.readAll(_data, true);
       if (nin != _nin || nout != _nout) {
          return false;
+      }
+      for (int x = 0; x < 35; x++) {
+         if (header[x] != dfile.header[x]) {
+            return false;
+         }
       }
       if (data.Size() != (_data.Size() - shift)) {
          return false;
@@ -101,6 +118,14 @@ protected:
          }
       }
       return true;
+   }
+
+   CUnitTest_FUNC(10)
+   {
+      testName = "Read from Java";
+      filenum = 2147483645;
+      string tm;
+      return test_2(tm);
    }
 };
 
