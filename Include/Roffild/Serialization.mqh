@@ -85,9 +85,9 @@ public:
    {
    }
 
-   CSerialization(string path, bool write = false) : SerialHandle(INVALID_HANDLE)
+   CSerialization(string path, bool write = false, bool common = true) : SerialHandle(INVALID_HANDLE)
    {
-      init(write, path);
+      init(write, path, common);
    }
 
    ~CSerialization()
@@ -97,15 +97,21 @@ public:
 
    void close()
    {
-      FileClose(SerialHandle);
-      SerialHandle = INVALID_HANDLE;
+      if (SerialHandle != INVALID_HANDLE) {
+         FileClose(SerialHandle);
+         SerialHandle = INVALID_HANDLE;
+      }
    }
 
-   int init(bool write = false, string path = "")
+   int init(bool write = false, string path = "", bool common = true)
    {
       if (SerialHandle == INVALID_HANDLE) {
          if (path != "") {
-            SerialHandle = FileOpen(path, FILE_BIN | FILE_UNICODE | (write ? FILE_WRITE : FILE_READ));
+            int flags = FILE_BIN | FILE_UNICODE | (write ? FILE_WRITE : FILE_READ);
+            if (common) {
+               flags |= FILE_COMMON;
+            }
+            SerialHandle = FileOpen(path, flags);
             return init(write);
          }
          return INVALID_HANDLE;

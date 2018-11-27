@@ -46,13 +46,21 @@ public class Serialization extends MqlLibrary implements Closeable
 
    public int SerialHandle = INVALID_HANDLE;
 
-   Serialization()
+   public Serialization()
    {
    }
 
+   public Serialization(String path)
+   {
+      init(false, path);
+   }
    public Serialization(String path, boolean write)
    {
       init(write, path);
+   }
+   public Serialization(String path, boolean write, boolean common)
+   {
+      init(write, path, common);
    }
 
    @Override
@@ -65,25 +73,33 @@ public class Serialization extends MqlLibrary implements Closeable
    @Override
    public void close()
    {
-      FileClose(SerialHandle);
-      SerialHandle = INVALID_HANDLE;
+      if (SerialHandle != INVALID_HANDLE) {
+         FileClose(SerialHandle);
+         SerialHandle = INVALID_HANDLE;
+      }
    }
 
    public int init()
    {
-      return init(false, "");
+      return init(false, "", true);
    }
-
    public int init(boolean write)
    {
-      return init(write, "");
+      return init(write, "", true);
    }
-
    public int init(boolean write, String path)
+   {
+      return init(write, path, true);
+   }
+   public int init(boolean write, String path, boolean common)
    {
       if (SerialHandle == INVALID_HANDLE) {
          if (path != null && !path.isEmpty()) {
-            SerialHandle = FileOpen(path, FILE_BIN | FILE_UNICODE | (write ? FILE_WRITE : FILE_READ));
+            int flags = FILE_BIN | FILE_UNICODE | (write ? FILE_WRITE : FILE_READ);
+            if (common) {
+               flags |= FILE_COMMON;
+            }
+            SerialHandle = FileOpen(path, flags);
             return init(write);
          }
          return INVALID_HANDLE;
