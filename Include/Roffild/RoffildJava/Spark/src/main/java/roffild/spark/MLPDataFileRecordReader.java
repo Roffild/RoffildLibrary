@@ -81,8 +81,8 @@ public class MLPDataFileRecordReader extends RecordReader<String[], Row>
    @Override
    public String[] getCurrentKey() throws IOException, InterruptedException
    {
-      if (header.length < size.value) {
-         throw new IOException("header (" + header.length + ") < size (" + size.value + ")");
+      if (header.length != size.value) {
+         throw new IOException("header (" + header.length + ") != size (" + size.value + ")");
       }
       return header;
    }

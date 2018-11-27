@@ -22,21 +22,25 @@ import org.apache.spark.sql.SparkSession;
 import roffild.mqlport.Pointer;
 import roffild.spark.MLPDataFileSpark;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class MLPDataFileSparkTest
 {
-   public static void main(String[] args)
+   public static void main(String[] args) throws IOException
    {
       if (args.length < 1) {
          System.out.println("=========================");
          System.out.println("spark.bat path_to_MLPDataFile");
          System.out.println("=========================");
+         return;
       }
       SparkSession spark = SparkSession.builder().appName("MLPDataFileSparkTest").getOrCreate();
       String path = args[0];
@@ -50,6 +54,9 @@ public class MLPDataFileSparkTest
       }
 
       Dataset<Row> data = MLPDataFileSpark.getDataset(path, spark);
+
+      Files.walk(Paths.get(pathsave)).sorted(Comparator.reverseOrder())
+              .map(Path::toFile).forEach(File::delete);
 
       int repartition = 1;
 
