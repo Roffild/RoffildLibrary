@@ -44,6 +44,7 @@ def environmentWrite(fpath):
         cfg.write("Windows Registry Editor Version 5.00\n\n")
         cfg.write("#[HKEY_CURRENT_USER\Environment]\n")
         cfg.write("[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment]\n")
+        cfg.write('"PYTHONHOME"="' + str(sys.prefix).replace("\\", "\\\\") + '"\n')
         env = os.environ.get("MT5_HOME")
         if env is None:
             for env in Path(os.environ["ProgramFiles"]).rglob("metaeditor64.exe"):

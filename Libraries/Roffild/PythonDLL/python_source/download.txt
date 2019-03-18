@@ -1,0 +1,7 @@
+﻿Python sources are needed only for Debug:
+https://www.python.org/downloads/source/
+
+https://developercommunity.visualstudio.com/content/problem/279298/cant-add-source-directory-for-intellisense.html
+
+To study the sources of Python is better to run:
+PCbuild\pcbuild.sln

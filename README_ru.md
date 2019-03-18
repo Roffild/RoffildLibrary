@@ -11,7 +11,8 @@ MetaEditor может сохранять код в UTF-16, но кодировк
 Библиотеку можно разделить на интересы:
 * обычные задачи (ArrayList, Log4MQL, ToIndicator и т.д.);
 * эксперименты с AlgLib в машинном обучении;
-* использование Apache Spark с Amazon Web Services (EC2 и EMR), когда возможностей AlgLib перестало хватать.
+* использование Apache Spark с Amazon Web Services (EC2 и EMR), когда возможностей AlgLib перестало хватать;
+* использование TensorFlow или PyTorch через [PythonDLL](https://roffild.com/ru/PythonDLL.html).
 
 MQL5 является частью торговой платформы MetaTrader 5 (MT5) для Forex, CFD и Futures. До сих пор используется версия MetaTrader 4 (MT4) с MQL4, но после последних обновлений совместима с синтаксисом MQL5. Официально версия MetaTrader 4 (MT4) уже не поддерживается, но для совместимости можно использовать ``` #property strict ``` в начале файла.
 
@@ -33,6 +34,7 @@ MQL5 является частью торговой платформы MetaTrade
   * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5) - Создание нейронной сети (Multilayer Perceptron) с двумя скрытыми слоями.
   * [Alglib_RandomForest.mq5](Experts/Roffild/Alglib_RandomForest.mq5) - Создание случайного леса.
   * [Examples/](Experts/Roffild/Examples/)
+    * [PythonDLL_Example.mq5](Experts/Roffild/Examples/PythonDLL_Example.mq5) - Пример использования [PythonDLL](https://roffild.com/ru/PythonDLL.html).
     * [ToIndicator_Example.mq5](Experts/Roffild/Examples/ToIndicator_Example.mq5)
 * [Include/Roffild/](Include/Roffild/)
   * [MLPDataFile.mqh](Include/Roffild/MLPDataFile.mqh) - Формат данных для Alglib_MultilayerPerceptron и Alglib_RandomForest. MLPDataFile = CSV в бинарном формате.
@@ -55,11 +57,14 @@ MQL5 является частью торговой платформы MetaTrade
     * [RoffildLibrary](Include/Roffild/RoffildJava/RoffildLibrary/)
     * [Spark](Include/Roffild/RoffildJava/Spark/) - Чтение из MLPDataFile.
     * [aws_ubuntu_user_data.sh](Include/Roffild/RoffildJava/AmazonUtils/src/main/resources/aws_ubuntu_user_data.sh) - Рабочий скрипт для поднятия агентов тестирования на Ubuntu в AWS. [Инструкция здесь.](https://roffild.com/ru/agents.html)
+  * [PythonDLL.mqh](Include/Roffild/PythonDLL.mqh) - Класс для [PythonDLL](https://roffild.com/ru/PythonDLL.html).
   * [RoffildPython/](Include/Roffild/RoffildPython/)
 * [Indicators/Roffild/](Indicators/Roffild/)
   * [ToIndicator.mqh](Indicators/Roffild/ToIndicator.mqh)
   * [ToIndicator.mq5](Indicators/Roffild/ToIndicator.mq5)
   * [ToIndicator_window.mq5](Indicators/Roffild/ToIndicator_window.mq5)
+* [Libraries/Roffild/](Libraries/Roffild/)
+  * [PythonDLL/](Libraries/Roffild/PythonDLL/) - [PythonDLL](https://roffild.com/ru/PythonDLL.html).
 * [Scripts/Roffild/](Scripts/Roffild/)
   * [MLPDataFileSparkTest](Scripts/Roffild/MLPDataFileSparkTest) - Пример проекта для Spark и тест MLPDataFile.
   * [UnitTests](Scripts/Roffild/UnitTests)

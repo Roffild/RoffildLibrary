@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PythonDLL", "PythonDLL.vcxproj", "{2F2A5550-47A5-414C-85DA-0B0508D7BA1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_D|x64 = Debug_D|x64
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F2A5550-47A5-414C-85DA-0B0508D7BA1D}.Debug_D|x64.ActiveCfg = Debug_D|x64
+		{2F2A5550-47A5-414C-85DA-0B0508D7BA1D}.Debug_D|x64.Build.0 = Debug_D|x64
+		{2F2A5550-47A5-414C-85DA-0B0508D7BA1D}.Debug|x64.ActiveCfg = Debug|x64
+		{2F2A5550-47A5-414C-85DA-0B0508D7BA1D}.Debug|x64.Build.0 = Debug|x64
+		{2F2A5550-47A5-414C-85DA-0B0508D7BA1D}.Release|x64.ActiveCfg = Release|x64
+		{2F2A5550-47A5-414C-85DA-0B0508D7BA1D}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF624A80-8F53-4F7F-80CD-FE4F864B4CCB}
+	EndGlobalSection
+EndGlobal
