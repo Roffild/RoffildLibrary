@@ -92,6 +92,17 @@ class MLPDataFile():
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.handleFile != INVALID_HANDLE:
+            sz = [0]
+            dt = []
+            if self.read(dt, sz) == sz[0] and sz[0] > 0:
+                return dt
+        raise StopIteration
+
     """/**
      * @param file number of file
      * @param[in] nin NIn
