@@ -34,7 +34,7 @@ MQL5 является частью торговой платформы MetaTrade
   * [Alglib_MultilayerPerceptron.mq5](Experts/Roffild/Alglib_MultilayerPerceptron.mq5) - Создание нейронной сети (Multilayer Perceptron) с двумя скрытыми слоями.
   * [Alglib_RandomForest.mq5](Experts/Roffild/Alglib_RandomForest.mq5) - Создание случайного леса.
   * [Examples/](Experts/Roffild/Examples/)
-    * [PythonDLL_Example.mq5](Experts/Roffild/Examples/PythonDLL_Example.mq5) - Пример использования [PythonDLL](https://roffild.com/ru/PythonDLL.html).
+    * [PythonDLL_Example.mq5](Experts/Roffild/Examples/PythonDLL_Example.mq5) и [PythonDLL_Example.py](Experts/Roffild/Examples/PythonDLL_Example.py) - Пример использования [PythonDLL](https://roffild.com/ru/PythonDLL.html).
     * [ToIndicator_Example.mq5](Experts/Roffild/Examples/ToIndicator_Example.mq5)
 * [Include/Roffild/](Include/Roffild/)
   * [MLPDataFile.mqh](Include/Roffild/MLPDataFile.mqh) - Формат данных для Alglib_MultilayerPerceptron и Alglib_RandomForest. MLPDataFile = CSV в бинарном формате.
