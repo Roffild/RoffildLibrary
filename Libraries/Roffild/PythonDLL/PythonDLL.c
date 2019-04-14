@@ -82,9 +82,6 @@ _DLLSTD(mqlbool) pyInitialize(const mqlstring paths_to_packages, const mqlstring
       AcquireSRWLockExclusive(&__pyinit_lock);
       if (Py_IsInitialized() == 0) {
          Py_SetPath(paths_to_packages);
-         //Py_SetPythonHome(L"c:\\Miniconda3\\envs\\pycharm\\");
-         //Py_SetPythonHome(L"c:/Python37");
-         //Py_SetPath(L"c:\\Miniconda3\\envs\\pycharm\\Lib\\;");
          Py_InitializeEx(0); //abort() on error
          __interps[0].interp = PyThreadState_Get();
       }
@@ -142,14 +139,18 @@ _DLLSTD(mqlbool) pyInitialize(const mqlstring paths_to_packages, const mqlstring
 
 _DLLSTD(void) pyFinalize()
 {
-   if (Py_IsInitialized() && __getInterp()->interp != NULL) {
-      PY_THREAD_START;
-      __clearInterp(__interp);
-      PyErr_Clear();
-      Py_EndInterpreter(__interp->interp);
-      __interp->interp = NULL;
-      __clearInterp(__interp);
-      PY_THREAD_ANY_STOP;
+   if (Py_IsInitialized()) {
+      stInterpreter *stinterp = __getInterp();
+      // DLL_THREAD_DETACH without DLL_THREAD_ATTACH
+      if (stinterp != NULL && stinterp->interp == NULL) {
+         PY_THREAD_START;
+         __clearInterp(__interp);
+         PyErr_Clear();
+         Py_EndInterpreter(__interp->interp);
+         __interp->interp = NULL;
+         __clearInterp(__interp);
+         PY_THREAD_ANY_STOP;
+      }
    }
 }
 

@@ -75,12 +75,12 @@ typedef __int8 mqlbool;
 typedef mqlint mqlenum;
 typedef wchar_t* mqlstring;
 
-#define false 0
-#define true 1
 #ifdef __cplusplus
 #define _DLLSTD(type) extern "C" __declspec(dllexport) type __stdcall
 #else
 #define _DLLSTD(type) extern __declspec(dllexport) type __stdcall
+#define false 0
+#define true 1
 #endif
 #define _DLLOUT(name) name
 #define _DLLOUTSTRING(name) name
