@@ -228,6 +228,28 @@ public class MLPDataFile implements Closeable
       return false;
    }
 
+   public static double[] DoublesTodoubles(final Double[] doubles)
+   {
+      return DoublesTodoubles((Object[])doubles);
+   }
+   public static double[] DoublesTodoubles(final Object[] doubles)
+   {
+      double[] result = new double[doubles.length];
+      for (int x = doubles.length - 1; x > -1; x--) {
+         result[x] = (Double)(doubles[x]);
+      }
+      return result;
+   }
+
+   public static Double[] doublesToDoubles(final double[] doubles)
+   {
+      Double[] result = new Double[doubles.length];
+      for (int x = doubles.length - 1; x > -1; x--) {
+         result[x] = doubles[x];
+      }
+      return result;
+   }
+
    @Override
    protected void finalize() throws Throwable
    {
