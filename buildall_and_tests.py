@@ -54,7 +54,7 @@ def environmentWrite(fpath):
         env = os.environ.get("JAVA_HOME")
         if env is None:
             for env in Path(os.environ["ProgramFiles"]).rglob("java.exe"):
-                env = env.parent
+                env = env.parent.parent
                 break
         cfg.write('"JAVA_HOME"="' + str(env).replace("\\", "\\\\") + '"\n')
         env = os.environ.get("JAVA_TOOL_OPTIONS")
