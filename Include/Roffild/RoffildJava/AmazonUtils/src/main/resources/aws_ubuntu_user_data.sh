@@ -33,5 +33,5 @@ fi
 CPU=`cat /proc/cpuinfo | awk '/^processor/{print $3}' | tail -1`
 for port in `seq 0 $CPU`
 do
-sudo -u $USER -- /usr/bin/wine "$MQF/metatester64.exe" /local /password:$agentPassword /address:0.0.0.0:$(($port + $agentStartPort)) &
+sudo -u $USER -- /usr/bin/wine "$MQF/metatester64.exe" /dlls /local /password:$agentPassword /address:0.0.0.0:$(($port + $agentStartPort)) &
 done
