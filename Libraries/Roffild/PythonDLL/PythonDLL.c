@@ -28,6 +28,10 @@ BOOL APIENTRY DllMain(HMODULE hModule,
    {
    case DLL_PROCESS_ATTACH:
       __interps_count = 1;
+      __interps = (stInterpreter*)realloc(__interps, 2 * sizeof(stInterpreter));
+      __interps[0].id = 0;
+      __interps[0].interp = NULL;
+      __clearInterp(&__interps[0]);
       ghModule = hModule;
       InitializeSRWLock(&__interps_lock);
       InitializeSRWLock(&__pyinit_lock);
