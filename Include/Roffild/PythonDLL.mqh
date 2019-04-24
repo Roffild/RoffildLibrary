@@ -65,6 +65,12 @@ public:
    /**
     * It is not necessary to use this function,
     * because it is always called when a test is completed or MetaTrader is closed.
+    *
+    * WARNING: Do not call this function when using the NumPy library.
+    *
+    * Bug:
+    * https://github.com/numpy/numpy/issues/8097
+    * https://bugs.python.org/issue34309
     */
    void finalize()
    {
@@ -76,11 +82,15 @@ public:
     *
     * @param[in] pycode
     * @param[in] override_class when changing the variable __mql__, set to true.
-    * @return error status.
+    * @return false if error.
     */
    bool eval(const string pycode, const bool override_class = false)
    {
-      return pyEval(pycode, override_class);
+      if (pyEval(pycode, override_class) == false) {
+         Print(getErrorText());
+         return false;
+      }
+      return true;
    }
 
    /**
@@ -88,7 +98,7 @@ public:
     * To get an error message, use getErrorText().
     *
     * @param[in] clear clears the error.
-    * @return error status.
+    * @return true if error.
     */
    bool isError(const bool clear = true)
    {

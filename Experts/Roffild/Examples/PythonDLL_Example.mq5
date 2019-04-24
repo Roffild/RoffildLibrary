@@ -16,7 +16,7 @@
 #property copyright "Roffild"
 #property link      "https://github.com/Roffild/RoffildLibrary"
 
-extern string PythonHome = "";
+input string PythonHome = "";
 
 #include <Roffild/PythonDLL.mqh>
 #include <Roffild/ToIndicator.mqh>
@@ -42,11 +42,7 @@ int OnInit()
       return INIT_FAILED;
    }
    if (python.eval(_PyCode_, true) == false) {
-      const string errmycode = python.getErrorText();
-      if (errmycode != "") {
-         Print(errmycode);
-         return INIT_FAILED;
-      }
+      return INIT_FAILED;
    }
    uchar array[];
    StringToCharArray("Version_info: ", array);

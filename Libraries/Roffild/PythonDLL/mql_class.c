@@ -31,7 +31,7 @@ _DLLSTD(mqlint) pyMQL_getLong(const mqllong magic, const mqllong value,
    mqlint ret = -1;
    int overflow;
 
-   PY_THREAD_START;
+   PY_THREAD_START_OR(return ret);
    PyErr_Clear();
    arg1 = PyLong_FromLongLong(magic);
    arg2 = PyLong_FromLongLong(value);
@@ -85,7 +85,7 @@ _DLLSTD(mqlint) pyMQL_getULong(const mqllong magic, const mqlulong value,
    Py_ssize_t x, size;
    mqlint ret = -1;
 
-   PY_THREAD_START;
+   PY_THREAD_START_OR(return ret);
    PyErr_Clear();
    arg1 = PyLong_FromLongLong(magic);
    arg2 = PyLong_FromUnsignedLongLong(value);
@@ -139,7 +139,7 @@ _DLLSTD(mqlint) pyMQL_getDouble(const mqllong magic, const mqldouble value,
    Py_ssize_t x, size;
    mqlint ret = -1;
 
-   PY_THREAD_START;
+   PY_THREAD_START_OR(return ret);
    PyErr_Clear();
    arg1 = PyLong_FromLongLong(magic);
    arg2 = PyFloat_FromDouble(value);
@@ -192,7 +192,7 @@ _DLLSTD(mqlint) pyMQL_getString(const mqllong magic, const mqlstring value,
    mqlstring str;
    mqlint ret = -1;
 
-   PY_THREAD_START;
+   PY_THREAD_START_OR(return ret);
    PyErr_Clear();
    arg1 = PyLong_FromLongLong(magic);
    arg2 = PyUnicode_FromWideChar(value, -1);

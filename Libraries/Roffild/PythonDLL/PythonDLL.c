@@ -46,18 +46,15 @@ BOOL APIENTRY DllMain(HMODULE hModule,
       break;
    case DLL_PROCESS_DETACH:
       for (size_t x = 1; x < __interps_count; x++) {
-         stInterpreter *__interp = &__interps[x];
-         if (__interp->interp != NULL && _PyThreadState_UncheckedGet() != __interp->interp) {
-            PyEval_AcquireThread(__interp->interp);
-            __clearInterp(__interp);
-            PyErr_Clear();
-            Py_EndInterpreter(__interp->interp);
-            __interp->interp = NULL;
-            __clearInterp(__interp);
-            PY_THREAD_ANY_STOP;
-         }
+         _PY_THREAD_START_OR(&__interps[x], continue);
+         __clearInterp(__interp);
+         PyErr_Clear();
+         Py_EndInterpreter(__interp->interp);
+         __interp->interp = NULL;
+         __clearInterp(__interp);
+         PY_THREAD_ANY_STOP;
       }
-      PY_THREAD_MAIN_START;
+      PY_THREAD_MAIN_START_OR(break);
       Py_Finalize();
       break;
    }
@@ -66,7 +63,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 _DLLSTD(mqlbool) pyIsInitialized()
 {
-   return Py_IsInitialized() && __getInterp()->interp != NULL;
+   if (Py_IsInitialized()) {
+      stInterpreter *stinterp = __getInterp();
+      return stinterp != NULL && stinterp->interp != NULL;
+   }
+   return false;
 }
 
 _DLLSTD(mqlbool) pyInitialize(const mqlstring paths_to_packages, const mqlstring paths_to_dlls,
@@ -89,7 +90,7 @@ _DLLSTD(mqlbool) pyInitialize(const mqlstring paths_to_packages, const mqlstring
    }
    stInterpreter *stinterp = __getInterp();
    if (stinterp->interp == NULL) {
-      PY_THREAD_MAIN_START;
+      PY_THREAD_MAIN_START_OR(return false);
       stinterp = __setInterp(Py_NewInterpreter());
       if (stinterp->interp != NULL) {
          stinterp->main = PyImport_AddModule("__main__");
@@ -139,26 +140,22 @@ _DLLSTD(mqlbool) pyInitialize(const mqlstring paths_to_packages, const mqlstring
 
 _DLLSTD(void) pyFinalize()
 {
-   if (Py_IsInitialized()) {
-      stInterpreter *stinterp = __getInterp();
-      // DLL_THREAD_DETACH without DLL_THREAD_ATTACH
-      if (stinterp != NULL && stinterp->interp == NULL) {
-         PY_THREAD_START;
-         __clearInterp(__interp);
-         PyErr_Clear();
-         Py_EndInterpreter(__interp->interp);
-         __interp->interp = NULL;
-         __clearInterp(__interp);
-         PY_THREAD_ANY_STOP;
-      }
-   }
+   // https://github.com/numpy/numpy/issues/8097
+   // https://bugs.python.org/issue34309
+   PY_THREAD_START_OR(return);
+   __clearInterp(__interp);
+   PyErr_Clear();
+   Py_EndInterpreter(__interp->interp);
+   __interp->interp = NULL;
+   __clearInterp(__interp);
+   PY_THREAD_ANY_STOP;
 }
 
 _DLLSTD(mqlbool) pyEval(const mqlstring pycode, const mqlbool override_class)
 {
-   PY_THREAD_START;
-   PyErr_Clear();
    mqlbool ret = false;
+   PY_THREAD_START_OR(return ret);
+   PyErr_Clear();
    PyObject *code = PyUnicode_FromWideChar(pycode, -1);
    if (code != NULL) {
       PyObject *global = PyModule_GetDict(__interp->main);
@@ -181,7 +178,7 @@ _DLLSTD(mqlbool) pyEval(const mqlstring pycode, const mqlbool override_class)
 
 _DLLSTD(mqlbool) pyIsError(const mqlbool clear)
 {
-   PY_THREAD_START;
+   PY_THREAD_START_OR(return true);
    const mqlbool ret = PyErr_Occurred() != NULL;
    if (ret && clear) {
       PyErr_Clear();
@@ -196,7 +193,17 @@ _DLLSTD(mqlint) pyGetErrorText(mqlstring _DLLOUTSTRING(buffer), const mqlint str
    if (stringBufferLen < 1) {
       return ret;
    }
-   PY_THREAD_START;
+   PY_THREAD_START_OR(
+      wchar_t str[] = L"The pyInitialize() was not called or returned an error.";
+      Py_ssize_t size = wcslen(str);
+      ret = (mqlint)size;
+      if (size > stringBufferLen) {
+         size = stringBufferLen;
+      }
+      wmemcpy(buffer, str, size);
+      buffer[size] = 0;
+      return ret;
+   );
    if (PyErr_Occurred() == NULL) {
       ret = 0;
    }

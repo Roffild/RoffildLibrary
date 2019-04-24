@@ -41,12 +41,15 @@ stInterpreter* __setInterp(PyThreadState *newinterp);
 void __clearInterp(stInterpreter *interp);
 void __overrideInterp(stInterpreter *interp);
 
-#define PY_THREAD_MAIN_START stInterpreter *__interp = &__interps[0]; \
-   do {if (_PyThreadState_UncheckedGet() != __interp->interp) \
-          PyEval_AcquireThread(__interp->interp);} while(0)
-#define PY_THREAD_START stInterpreter *__interp = __getInterp(); \
-   do {if (_PyThreadState_UncheckedGet() != __interp->interp) \
-          PyEval_AcquireThread(__interp->interp);} while(0)
+#define _PY_THREAD_START_OR(stinterp, ret) stInterpreter *__interp = stinterp; \
+   if (__interp != NULL && __interp->interp != NULL) { \
+      if (_PyThreadState_UncheckedGet() != __interp->interp) { \
+         PyEval_AcquireThread(__interp->interp); \
+      } \
+   } else { ret; } do {} while(0)
+#define PY_THREAD_START_OR(ret) _PY_THREAD_START_OR(__getInterp(), ret)
+#define PY_THREAD_MAIN_START_OR(ret) _PY_THREAD_START_OR(&__interps[0], ret)
 #define PY_THREAD_STOP do {PyEval_ReleaseThread(__interp->interp);} while(0)
-#define PY_THREAD_MAIN_STOP do {PyThreadState_Swap(__interp->interp);PyEval_ReleaseThread(__interp->interp);} while(0)
+#define PY_THREAD_MAIN_STOP do {PyThreadState_Swap(__interp->interp); \
+   PyEval_ReleaseThread(__interp->interp);} while(0)
 #define PY_THREAD_ANY_STOP do {PyEval_ReleaseLock();} while(0)
