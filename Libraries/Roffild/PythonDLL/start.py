@@ -33,7 +33,7 @@ except:
 
 gc.set_debug(gc.DEBUG_SAVEALL)  # Bug in PyGC_Collect()
 __mql_stderr__ = __mql_stderr_class__()
-__name__ = '__mql__'
+__PythonDLL__ = True
 
 
 #############################
