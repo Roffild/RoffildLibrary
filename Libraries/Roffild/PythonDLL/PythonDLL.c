@@ -28,21 +28,23 @@ BOOL APIENTRY DllMain(HMODULE hModule,
    {
    case DLL_PROCESS_ATTACH:
       __interps_count = 1;
-      __interps = (stInterpreter*)realloc(__interps, 2 * sizeof(stInterpreter));
-      __interps[0].id = 0;
-      __interps[0].interp = NULL;
-      __clearInterp(&__interps[0]);
+      __interps = (stInterpreter**)realloc(__interps, 2 * sizeof(stInterpreter*));
+      __interps[0] = (stInterpreter*)malloc(sizeof(stInterpreter));
+      __interps[0]->id = 0;
+      __interps[0]->interp = NULL;
+      __clearInterp(__interps[0]);
       ghModule = hModule;
       InitializeSRWLock(&__interps_lock);
       InitializeSRWLock(&__pyinit_lock);
       //break;
    case DLL_THREAD_ATTACH:
       AcquireSRWLockExclusive(&__interps_lock);
+      __interps = (stInterpreter**)realloc(__interps, (__interps_count + 1) * sizeof(stInterpreter*));
+      __interps[__interps_count] = (stInterpreter*)malloc(sizeof(stInterpreter));
+      __interps[__interps_count]->id = GetCurrentThreadId();
+      __interps[__interps_count]->interp = NULL;
+      __clearInterp(__interps[__interps_count]);
       __interps_count++;
-      __interps = (stInterpreter*)realloc(__interps, __interps_count * sizeof(stInterpreter));
-      __interps[__interps_count - 1].id = GetCurrentThreadId();
-      __interps[__interps_count - 1].interp = NULL;
-      __clearInterp(&__interps[__interps_count - 1]);
       ReleaseSRWLockExclusive(&__interps_lock);
       break;
    case DLL_THREAD_DETACH:
@@ -50,7 +52,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
       break;
    case DLL_PROCESS_DETACH:
       for (size_t x = 1; x < __interps_count; x++) {
-         _PY_THREAD_START_OR(&__interps[x], continue);
+         _PY_THREAD_START_OR(__interps[x], continue);
          __clearInterp(__interp);
          PyErr_Clear();
          Py_EndInterpreter(__interp->interp);
@@ -88,7 +90,7 @@ _DLLSTD(mqlbool) pyInitialize(const mqlstring paths_to_packages, const mqlstring
       if (Py_IsInitialized() == 0) {
          Py_SetPath(paths_to_packages);
          Py_InitializeEx(0); //abort() on error
-         __interps[0].interp = PyThreadState_Get();
+         __interps[0]->interp = PyThreadState_Get();
       }
       ReleaseSRWLockExclusive(&__pyinit_lock);
    }

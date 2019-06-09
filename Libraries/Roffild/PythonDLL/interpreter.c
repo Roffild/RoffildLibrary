@@ -17,7 +17,7 @@
 #include "private.h"
 
 size_t __interps_count = 0;
-stInterpreter *__interps = NULL;
+stInterpreter **__interps = NULL;
 SRWLOCK __interps_lock;
 
 stInterpreter* __getInterp()
@@ -26,8 +26,8 @@ stInterpreter* __getInterp()
    const DWORD id = GetCurrentThreadId();
    stInterpreter *ret = NULL;
    for (size_t x = 0; x < __interps_count; x++) {
-      if (__interps[x].id == id) {
-         ret = &__interps[x];
+      if (__interps[x]->id == id) {
+         ret = __interps[x];
       }
    }
    ReleaseSRWLockShared(&__interps_lock);
@@ -40,9 +40,9 @@ stInterpreter* __setInterp(PyThreadState *newinterp)
    const DWORD id = GetCurrentThreadId();
    stInterpreter *ret = NULL;
    for (size_t x = 0; x < __interps_count; x++) {
-      if (__interps[x].id == id) {
-         __interps[x].interp = newinterp;
-         ret = &__interps[x];
+      if (__interps[x]->id == id) {
+         __interps[x]->interp = newinterp;
+         ret = __interps[x];
       }
    }
    ReleaseSRWLockShared(&__interps_lock);

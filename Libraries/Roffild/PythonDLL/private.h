@@ -33,7 +33,7 @@ typedef struct _stInterpreter
 } stInterpreter;
 
 extern size_t __interps_count;
-extern stInterpreter *__interps;
+extern stInterpreter **__interps;
 extern SRWLOCK __interps_lock;
 
 stInterpreter* __getInterp();
@@ -48,7 +48,7 @@ void __overrideInterp(stInterpreter *interp);
       } \
    } else { ret; } do {} while(0)
 #define PY_THREAD_START_OR(ret) _PY_THREAD_START_OR(__getInterp(), ret)
-#define PY_THREAD_MAIN_START_OR(ret) _PY_THREAD_START_OR(&__interps[0], ret)
+#define PY_THREAD_MAIN_START_OR(ret) _PY_THREAD_START_OR(__interps[0], ret)
 #define PY_THREAD_STOP do {PyEval_ReleaseThread(__interp->interp);} while(0)
 #define PY_THREAD_MAIN_STOP do {PyThreadState_Swap(__interp->interp); \
    PyEval_ReleaseThread(__interp->interp);} while(0)
