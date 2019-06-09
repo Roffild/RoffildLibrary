@@ -36,8 +36,9 @@ BOOL APIENTRY DllMain(HMODULE hModule,
       ghModule = hModule;
       InitializeSRWLock(&__interps_lock);
       InitializeSRWLock(&__pyinit_lock);
-      //break;
+#ifdef PYTHONDLL_SUBINTERPRETERS
    case DLL_THREAD_ATTACH:
+#endif
       AcquireSRWLockExclusive(&__interps_lock);
       __interps = (stInterpreter**)realloc(__interps, (__interps_count + 1) * sizeof(stInterpreter*));
       __interps[__interps_count] = (stInterpreter*)malloc(sizeof(stInterpreter));
@@ -47,6 +48,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
       __interps_count++;
       ReleaseSRWLockExclusive(&__interps_lock);
       break;
+#ifdef PYTHONDLL_SUBINTERPRETERS
    case DLL_THREAD_DETACH:
       pyFinalize();
       break;
@@ -60,6 +62,14 @@ BOOL APIENTRY DllMain(HMODULE hModule,
          __clearInterp(__interp);
          PY_THREAD_ANY_STOP;
       }
+#else
+   case DLL_THREAD_ATTACH:
+      break;
+   case DLL_THREAD_DETACH:
+      break;
+   case DLL_PROCESS_DETACH:
+      pyFinalize();
+#endif
       PY_THREAD_MAIN_START_OR(break);
       Py_Finalize();
       break;
@@ -97,7 +107,11 @@ _DLLSTD(mqlbool) pyInitialize(const mqlstring paths_to_packages, const mqlstring
    stInterpreter *stinterp = __getInterp();
    if (stinterp->interp == NULL) {
       PY_THREAD_MAIN_START_OR(return false);
+#ifdef PYTHONDLL_SUBINTERPRETERS
       stinterp = __setInterp(Py_NewInterpreter());
+#else
+      stinterp = __setInterp(PyThreadState_Get());
+#endif
       if (stinterp->interp != NULL) {
          stinterp->main = PyImport_AddModule("__main__");
          if (stinterp->main != NULL) {
@@ -151,7 +165,9 @@ _DLLSTD(void) pyFinalize()
    PY_THREAD_START_OR(return);
    __clearInterp(__interp);
    PyErr_Clear();
+#ifdef PYTHONDLL_SUBINTERPRETERS
    Py_EndInterpreter(__interp->interp);
+#endif
    __interp->interp = NULL;
    __clearInterp(__interp);
    PY_THREAD_ANY_STOP;

@@ -23,13 +23,17 @@ SRWLOCK __interps_lock;
 stInterpreter* __getInterp()
 {
    AcquireSRWLockShared(&__interps_lock);
-   const DWORD id = GetCurrentThreadId();
    stInterpreter *ret = NULL;
+#ifdef PYTHONDLL_SUBINTERPRETERS
+   const DWORD id = GetCurrentThreadId();
    for (size_t x = 0; x < __interps_count; x++) {
       if (__interps[x]->id == id) {
          ret = __interps[x];
       }
    }
+#else
+   ret = __interps[1];
+#endif
    ReleaseSRWLockShared(&__interps_lock);
    return ret;
 }
@@ -37,14 +41,19 @@ stInterpreter* __getInterp()
 stInterpreter* __setInterp(PyThreadState *newinterp)
 {
    AcquireSRWLockShared(&__interps_lock);
-   const DWORD id = GetCurrentThreadId();
    stInterpreter *ret = NULL;
+#ifdef PYTHONDLL_SUBINTERPRETERS
+   const DWORD id = GetCurrentThreadId();
    for (size_t x = 0; x < __interps_count; x++) {
       if (__interps[x]->id == id) {
          __interps[x]->interp = newinterp;
          ret = __interps[x];
       }
    }
+#else
+   __interps[1]->interp = newinterp;
+   ret = __interps[1];
+#endif
    ReleaseSRWLockShared(&__interps_lock);
    return ret;
 }
