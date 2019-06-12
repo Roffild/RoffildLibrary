@@ -81,7 +81,7 @@ Windows имеет ограничения на 255 символов пути к 
 При тестировании терминал копирует историю по количеству локальных агентов, что увеличивает размер этой папки на несколько гигабайт.
 1. Переместить папку ``` %APPDATA%\MetaQuotes ``` в ``` D:\MQLProjects ```
 2. ``` mklink /j %APPDATA%\MetaQuotes D:\MQLProjects ```
-3. ``` mklink /j D:\MQLProjects\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\MQL5\ D:\MQLProjects\MQL5 ```
+3. ``` mklink /j D:\MQLProjects\MQL5 D:\MQLProjects\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\MQL5 ```
 
 (Важно)
 

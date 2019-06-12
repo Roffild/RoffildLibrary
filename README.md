@@ -90,7 +90,7 @@ Windows has a limit of 255 characters to the file path. The full path to the MQL
 When testing, the terminal copies history by the number of local agents that increases the size of this folder by several gigabytes.
 1. Move the ``` %APPDATA%\MetaQuotes ``` to ``` D:\MQLProjects ```
 2. ``` mklink /j %APPDATA%\MetaQuotes D:\MQLProjects ```
-3. ``` mklink /j D:\MQLProjects\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\MQL5\ D:\MQLProjects\MQL5 ```
+3. ``` mklink /j D:\MQLProjects\MQL5 D:\MQLProjects\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\MQL5 ```
 
 (Important)
 
