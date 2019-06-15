@@ -24,6 +24,89 @@ class __mql_stderr_class__(io.StringIO):
         self.truncate(0)
 
 
+class __stdnull__():
+    def close(self, *args, **kwargs):
+        pass
+
+    def fileno(self, *args, **kwargs):
+        pass
+
+    def flush(self, *args, **kwargs):
+        pass
+
+    def isatty(self, *args, **kwargs):
+        return False
+
+    def readable(self, *args, **kwargs):
+        return False
+
+    def readline(self, *args, **kwargs):
+        return ''
+
+    def readlines(self, *args, **kwargs):
+        return ['']
+
+    def seek(self, *args, **kwargs):
+        return 0
+
+    def seekable(self, *args, **kwargs):
+        return False
+
+    def tell(self, *args, **kwargs):
+        return 0
+
+    def truncate(self, *args, **kwargs):
+        return 0
+
+    def writable(self, *args, **kwargs):
+        return False
+
+    def writelines(self, *args, **kwargs):
+        pass
+
+    def _checkClosed(self, *args, **kwargs):
+        pass
+
+    def _checkReadable(self, *args, **kwargs):
+        pass
+
+    def _checkSeekable(self, *args, **kwargs):
+        pass
+
+    def _checkWritable(self, *args, **kwargs):
+        pass
+
+    def detach(self, *args, **kwargs):
+        pass
+
+    def read(self, *args, **kwargs):
+        pass
+
+    def write(self, *args, **kwargs):
+        pass
+
+    def reconfigure(self, *args, **kwargs):
+        pass
+
+    closed = property(lambda self: False, lambda self, v: None, lambda self: None)
+    encoding = property(lambda self: 'UTF-8', lambda self, v: None, lambda self: None)
+    errors = property(lambda self: object(), lambda self, v: None, lambda self: None)
+    newlines = property(lambda self: object(), lambda self, v: None, lambda self: None)
+    buffer = property(lambda self: object(), lambda self, v: None, lambda self: None)
+    line_buffering = property(lambda self: False, lambda self, v: None, lambda self: None)
+    name = property(lambda self: '<stdnull>', lambda self, v: None, lambda self: None)
+    write_through = property(lambda self: True, lambda self, v: None, lambda self: None)
+    _CHUNK_SIZE = property(lambda self: 8192, lambda self, v: None, lambda self: None)
+    _finalizing = property(lambda self: False, lambda self, v: None, lambda self: None)
+
+
+if sys.stdin is None:
+    sys.__stdin__ = sys.stdin = __stdnull__()
+if sys.stdout is None:
+    sys.__stdout__ = sys.stdout = __stdnull__()
+if sys.stderr is None:
+    sys.__stderr__ = sys.stderr = __stdnull__()
+
 try:
     sys.__stdin__ = sys.stdin = open('CONIN$', 'rt')
     sys.__stdout__ = sys.stdout = open('CONOUT$', 'wt')
