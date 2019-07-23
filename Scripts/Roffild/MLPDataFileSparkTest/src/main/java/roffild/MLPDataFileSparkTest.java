@@ -73,7 +73,7 @@ public class MLPDataFileSparkTest
    }
 
    private static void writeFile(String pathspark, Dataset<Row> data,
-           Pointer<Integer> nin, Pointer<Integer> nout)
+           Pointer<Integer> nin, Pointer<Integer> nout) throws IOException
    {
       try (MLPDataFile mlpfile = new MLPDataFile()) {
          mlpfile.initWrite0(pathspark, nin.value, nout.value, data.columns());
