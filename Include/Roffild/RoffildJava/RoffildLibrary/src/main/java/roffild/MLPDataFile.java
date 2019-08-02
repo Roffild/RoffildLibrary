@@ -20,8 +20,6 @@ import roffild.mqlport.MqlLibrary;
 import roffild.mqlport.Pointer;
 
 import java.io.Closeable;
-import java.io.IOException;
-
 import static roffild.mqlport.MqlLibrary.*;
 
 public class MLPDataFile implements Closeable
@@ -175,7 +173,7 @@ public class MLPDataFile implements Closeable
    }
 
    @Override
-   public void close() throws IOException
+   public void close()
    {
       if (handleFile != INVALID_HANDLE) {
          FileClose(handleFile);

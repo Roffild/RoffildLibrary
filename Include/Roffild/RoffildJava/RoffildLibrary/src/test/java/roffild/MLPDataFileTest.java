@@ -22,8 +22,6 @@ import org.junit.runners.MethodSorters;
 import roffild.mqlport.MqlArray;
 import roffild.mqlport.Pointer;
 
-import java.io.IOException;
-
 import static roffild.mqlport.MqlLibrary.INVALID_HANDLE;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -36,7 +34,7 @@ public class MLPDataFileTest
    static double data[][] = new double[50][35];
 
    @Test
-   public void test01_Write() throws IOException
+   public void test01_Write()
    {
       for (int x = 0; x < 35; x++) {
          header[x] = "col" + Integer.toString(x);
