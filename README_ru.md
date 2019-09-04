@@ -80,8 +80,8 @@ MQL5 является частью торговой платформы MetaTrade
 Windows имеет ограничения на 255 символов пути к файлу. Полный путь к папке MQL5 у меня состоит из 88 символов.
 При тестировании терминал копирует историю по количеству локальных агентов, что увеличивает размер этой папки на несколько гигабайт.
 1. Переместить папку ``` %APPDATA%\MetaQuotes ``` в ``` D:\MQLProjects ```
-2. ``` mklink /j %APPDATA%\MetaQuotes D:\MQLProjects ```
-3. ``` mklink /j D:\MQLProjects\MQL5 D:\MQLProjects\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\MQL5 ```
+2. ``` mklink /j "%APPDATA%\MetaQuotes" "D:\MQLProjects" ```
+3. ``` mklink /j "D:\MQLProjects\MQL5" "D:\MQLProjects\Terminal\D0E8209F77C8CF37AD8BF550E51FF075\MQL5" ```
 
 (Важно)
 
