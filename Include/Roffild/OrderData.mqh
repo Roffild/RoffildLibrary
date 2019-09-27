@@ -147,12 +147,15 @@ public:
          }
          return true;
       }
-      const double real = SymbolInfoDouble(symbol, sell ? SYMBOL_BID : SYMBOL_ASK);
+      double real = SymbolInfoDouble(symbol, sell ? SYMBOL_BID : SYMBOL_ASK);
       if (MathAbs(openprice - real) > (deviation * SymbolInfoDouble(symbol, SYMBOL_POINT))) {
          if (CheckPointer(order) != POINTER_INVALID) {
             delete order;
          }
          return false;
+      }
+      if (sell) {
+         real -= SymbolInfoDouble(symbol, SYMBOL_ASK) - real; // spread in double
       }
       if (CheckPointer(order) == POINTER_INVALID) {
          order = new COrderDataObject(symbol, period, variant, sell,
