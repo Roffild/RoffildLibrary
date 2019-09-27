@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -224,6 +225,7 @@ public class MqlLibrary
                     file_name);
          }
          if ((open_flags & (FILE_WRITE | FILE_REWRITE)) != 0) {
+            Files.createDirectories(full_file_name.getParent());
             ras = new RandomAccessFileLE(full_file_name.toFile(), "rw");
             ras.setLength(0);
             // UTF-16 BOM ?

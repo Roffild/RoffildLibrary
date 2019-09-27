@@ -118,19 +118,21 @@ def setPathFilesCommon(pathFilesCommon: str) -> None:
 
 def FileOpen(file_name: str, open_flags: int, delimiter: str = "\t",
              codepage: int = 0) -> io.BufferedRandom or int:
-    full_file_name = pathlib.Path(file_name)
-    # os.path.isabs("\\Program Files") == True
-    # pathlib.Path("\\Program Files").is_absolute() == False
-    if os.path.isabs(full_file_name) == False:
-        full_file_name = pathlib.Path(PATHFILESCOMMON if (open_flags & FILE_COMMON) != 0 else PATHFILES,
-                                      file_name)
-    mode = "r"
-    if (open_flags & (FILE_WRITE | FILE_REWRITE)) != 0:
-        mode = "w"
-    cdpage = "UTF-16LE"
-    if (open_flags & FILE_ANSI) != 0:
-        cdpage = "cp" + str(codepage) if codepage != 0 else "UTF-8"
     try:
+        full_file_name = pathlib.Path(file_name)
+        # os.path.isabs("\\Program Files") == True
+        # pathlib.Path("\\Program Files").is_absolute() == False
+        if os.path.isabs(full_file_name) == False:
+            full_file_name = pathlib.Path(PATHFILESCOMMON if (open_flags & FILE_COMMON) != 0 else PATHFILES,
+                                          file_name)
+        mode = "r"
+        if (open_flags & (FILE_WRITE | FILE_REWRITE)) != 0:
+            mode = "w"
+            if not full_file_name.parent.exists():
+                full_file_name.parent.mkdir(exist_ok=True)
+        cdpage = "UTF-16LE"
+        if (open_flags & FILE_ANSI) != 0:
+            cdpage = "cp" + str(codepage) if codepage != 0 else "UTF-8"
         if (open_flags & FILE_BIN) != 0:
             file = open(full_file_name, mode + "b")
             file.encoding = cdpage
