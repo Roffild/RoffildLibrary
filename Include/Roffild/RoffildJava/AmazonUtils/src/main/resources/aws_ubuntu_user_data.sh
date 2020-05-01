@@ -14,9 +14,10 @@ usermod -m -d $NHOME $USER
 SHUTTIME=`awk -v hr=$Hours '{print int((int(hr) - 1) * 60 + 55 - (int($1) % 3600) / 60)}' /proc/uptime`
 shutdown -h +$SHUTTIME timer &
 dpkg --add-architecture i386
-wget -nc https://dl.winehq.org/wine-builds/Release.key
-apt-key add Release.key
-apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+wget -nc https://dl.winehq.org/wine-builds/winehq.key
+apt-key add winehq.key
+apt-add-repository -y https://dl.winehq.org/wine-builds/ubuntu/
+apt-add-repository -y ppa:cybermax-dexter/sdl2-backport
 apt-get update -y
 DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 apt-get install -y --allow-unauthenticated winehq-devel awscli
