@@ -281,6 +281,66 @@ class MLPDataFile():
         return False;
 
     @staticmethod
+    def convertToNumpy(file: int, validation: bool = False, nin: list = None, nout: list = None):
+        import numpy
+        with MLPDataFile() as mlpfile:
+            if nin is None: nin = [0]
+            if nout is None: nout = [0]
+            if validation:
+                mlpfile.initReadValidation(file, nin, nout)
+            else:
+                mlpfile.initRead(file, nin, nout)
+            if mlpfile.handleFile == INVALID_HANDLE:
+                return None
+            data = []
+            dt = []
+            sz = [0]
+            while mlpfile.read(dt, sz) == sz[0] and sz[0] > 0:
+                data.append(numpy.array(dt, numpy.float64))
+                dt = []
+            return numpy.vstack(data)
+
+    @staticmethod
+    def convertToPandas(file: int, validation: bool = False, nin: list = None, nout: list = None):
+        import pandas
+        with MLPDataFile() as mlpfile:
+            if nin is None: nin = [0]
+            if nout is None: nout = [0]
+            if validation:
+                mlpfile.initReadValidation(file, nin, nout)
+            else:
+                mlpfile.initRead(file, nin, nout)
+            if mlpfile.handleFile == INVALID_HANDLE:
+                return None
+            _header = mlpfile.header
+        return pandas.DataFrame(MLPDataFile.convertToNumpy(file=file, validation=validation),
+                                columns=_header)
+
+    @staticmethod
+    def convertFromNumpy(ndarray, file: int, nin: int, nout: int, _header: list = None,
+                         validation: bool = False):
+        with MLPDataFile() as mlpfile:
+            if _header is None: _header = []
+            if validation:
+                mlpfile.initWriteValidation(file, nin, nout, _header)
+            else:
+                mlpfile.initWrite(file, nin, nout, _header)
+            if mlpfile.handleFile == INVALID_HANDLE:
+                return None
+            mlpfile.writeAll(ndarray.astype(dtype="float64"))
+
+    @staticmethod
+    def convertFromPandas(dataframe, file: int, nin: int, nout: int, validation: bool = False):
+        header = dataframe.columns.to_list() if dataframe.columns.is_object() else []
+        MLPDataFile.convertFromNumpy(ndarray=dataframe.to_numpy(dtype="float64"), file=file, nin=nin,
+                                     nout=nout, _header=header, validation=validation)
+
+    @staticmethod
+    def getAbsolutePath(file: int, validation: bool = False) -> str:
+        p = "_validation.bin" if validation else ".bin"
+        return str(pathlib.Path(getPathFilesCommon(), f"MLPData/mlp_{file}{p}").absolute())
+
+    @staticmethod
     def getPathFiles() -> str:
         return getPathFiles()
 

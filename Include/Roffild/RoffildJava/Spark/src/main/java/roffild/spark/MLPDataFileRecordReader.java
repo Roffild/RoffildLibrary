@@ -36,7 +36,7 @@ public class MLPDataFileRecordReader extends RecordReader<String[], Row>
    protected MLPDataFile mlpfile;
    public Pointer<Integer> nin = new Pointer<Integer>(0);
    public Pointer<Integer> nout = new Pointer<Integer>(0);
-   public String[] header;
+   public String[] header = new String[0];
    protected MqlArray<Double> data = new MqlArray<Double>();
    protected Pointer<Integer> size = new Pointer<Integer>(0);
    private long start, tell, finish;
@@ -56,16 +56,6 @@ public class MLPDataFileRecordReader extends RecordReader<String[], Row>
          FileSeek(mlpfile.handleFile, start, 0);
       }
       setBufferSize(mlpfile.handleFile, 1024 * 1024);
-      if (mlpfile.header.size() != (nin.value + nout.value)) {
-         mlpfile.header.clear();
-         for (int x = 0; x < nin.value; x++) {
-            mlpfile.header.add("fd" + x);
-         }
-         for (int x = 0; x < nout.value; x++) {
-            mlpfile.header.add("result" + x);
-         }
-      }
-      header = mlpfile.header.toArray(new String[1]);
    }
 
    @Override
@@ -81,6 +71,14 @@ public class MLPDataFileRecordReader extends RecordReader<String[], Row>
    @Override
    public String[] getCurrentKey() throws IOException, InterruptedException
    {
+      if (header.length == 0) {
+         if (mlpfile.header.size() == 0) {
+            for (int x = 0; x < size.value; x++) {
+               mlpfile.header.add("" + x);
+            }
+         }
+         header = mlpfile.header.toArray(new String[0]);
+      }
       if (header.length != size.value) {
          throw new IOException("header (" + header.length + ") != size (" + size.value + ")");
       }

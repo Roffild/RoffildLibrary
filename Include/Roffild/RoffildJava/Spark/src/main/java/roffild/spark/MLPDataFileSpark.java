@@ -26,6 +26,9 @@ import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
+import roffild.MLPDataFile;
+
+import java.util.Iterator;
 
 public class MLPDataFileSpark
 {
@@ -73,5 +76,32 @@ public class MLPDataFileSpark
               new StructField("label", DataTypes.DoubleType, false, Metadata.empty())
       });
       return spark.createDataFrame(getPairRDDVector(path, jsc, conf).values(), st);
+   }
+
+   public static void writeDatasetToFile(Dataset<Row> dataset, final int file, final int nin, final int nout,
+           final boolean validation)
+   {
+      writeDatasetToFile(dataset, file, nin, nout, new String[0], validation);
+   }
+   public static void writeDatasetToFile(Dataset<Row> dataset, final int file, final int nin, final int nout,
+           final String _header[], final boolean validation)
+   {
+      try (MLPDataFile mlpfile = new MLPDataFile()) {
+         if (validation) {
+            mlpfile.initWriteValidation(file, nin, nout, _header);
+         } else {
+            mlpfile.initWrite(file, nin, nout, _header);
+         }
+         writeDatasetToFile(dataset, mlpfile);
+      }
+   }
+   public static void writeDatasetToFile(Dataset<Row> dataset, MLPDataFile mlpfile)
+   {
+      Iterator<Row> it = dataset.toLocalIterator();
+      while (it.hasNext()) {
+         mlpfile.write(MLPDataFile.DoublesTodoubles(
+                 scala.collection.JavaConverters.seqAsJavaListConverter(it.next().toSeq())
+                         .asJava().toArray(new Double[0])));
+      }
    }
 }

@@ -20,6 +20,8 @@ import roffild.mqlport.MqlLibrary;
 import roffild.mqlport.Pointer;
 
 import java.io.Closeable;
+import java.nio.file.Paths;
+
 import static roffild.mqlport.MqlLibrary.*;
 
 public class MLPDataFile implements Closeable
@@ -248,6 +250,13 @@ public class MLPDataFile implements Closeable
          result[x] = doubles[x];
       }
       return result;
+   }
+
+   public static String getAbsolutePath(final int file, final boolean validation)
+   {
+      return Paths.get(getPathFilesCommon(),
+              "MLPData/mlp_" + Integer.toString(file) + (validation ? "_validation" : "") + ".bin")
+              .toAbsolutePath().toString();
    }
 
    @Override

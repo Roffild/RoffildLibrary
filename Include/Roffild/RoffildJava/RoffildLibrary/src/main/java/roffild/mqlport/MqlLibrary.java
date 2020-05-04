@@ -23,6 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 public class MqlLibrary
@@ -118,22 +120,21 @@ public class MqlLibrary
       return String.format(Locale.ENGLISH, "%." + digits + "f", value);
    }
 
-   protected static ArrayList<FileHandle> Handles = new ArrayList<>();
+   protected static List<FileHandle> Handles = Collections.synchronizedList(new ArrayList<FileHandle>());
 
    public static FileHandle getFileHandle(int file_handle) throws IOException
    {
-      if (file_handle <= INVALID_HANDLE || file_handle >= Handles.size()) {
-         throw new IOException("INVALID_HANDLE");
+      synchronized (Handles) {
+         if (file_handle <= INVALID_HANDLE || file_handle >= Handles.size()) {
+            throw new IOException("INVALID_HANDLE");
+         }
+         return Handles.get(file_handle);
       }
-      return Handles.get(file_handle);
    }
 
    public static RandomAccessFileLE getRas(int file_handle) throws IOException
    {
-      if (file_handle <= INVALID_HANDLE || file_handle >= Handles.size()) {
-         throw new IOException("INVALID_HANDLE");
-      }
-      return Handles.get(file_handle).ras;
+      return getFileHandle(file_handle).ras;
    }
 
    protected static class FileHandle
@@ -232,8 +233,10 @@ public class MqlLibrary
          } else {
             ras = new RandomAccessFileLE(full_file_name.toFile(), "r");
          }
-         Handles.add(new FileHandle(ras, open_flags, delimiter, codepage));
-         return Handles.size() - 1;
+         synchronized (Handles) {
+            Handles.add(new FileHandle(ras, open_flags, delimiter, codepage));
+            return Handles.size() - 1;
+         }
       } catch (IOException e) {
          return INVALID_HANDLE;
       }
